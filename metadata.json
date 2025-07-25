@@ -1,0 +1,6 @@
+{
+  "name": "AnimeVerse",
+  "description": "A sleek, modern anime discovery app. Browse popular, top-rated, and upcoming series. Features a dynamic theme with a cinematic hero slider, all powered by the Jikan API.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}

@@ -1,0 +1,68 @@
+
+:root, body[data-theme='blue'] {
+  /* RGB values for easier opacity control in Tailwind (e.g., bg-cyan-500/50) */
+  --color-primary-rgb: 34 211 238;        /* cyan-400 */
+  --color-primary-light-rgb: 103 232 249;   /* cyan-300 */
+  --color-primary-medium-rgb: 6 182 212;    /* cyan-500 */
+  --color-primary-dark-rgb: 8 145 178;      /* cyan-600 */
+  --color-primary-darker-rgb: 14 116 144;   /* cyan-700 */
+  --color-gradient-end-rgb: 37 99 235;      /* blue-600 */
+}
+
+body[data-theme='red'] {
+  --color-primary-rgb: 248 113 113;      /* red-400 */
+  --color-primary-light-rgb: 252 165 165; /* red-300 */
+  --color-primary-medium-rgb: 239 68 68;  /* red-500 */
+  --color-primary-dark-rgb: 220 38 38;    /* red-600 */
+  --color-primary-darker-rgb: 185 28 28;  /* red-700 */
+  --color-gradient-end-rgb: 249 115 22;   /* orange-500 */
+}
+
+/* 
+  This block overrides default Tailwind color classes to use our CSS variables.
+  Now, changing the data-theme on the body will update colors across the entire app.
+*/
+.text-cyan-300 { color: rgb(var(--color-primary-light-rgb)); }
+.text-cyan-400 { color: rgb(var(--color-primary-rgb)); }
+
+.accent-cyan-500 { accent-color: rgb(var(--color-primary-medium-rgb)); }
+
+.border-cyan-400 { border-color: rgb(var(--color-primary-rgb)); }
+.border-cyan-700 { border-color: rgb(var(--color-primary-darker-rgb)); }
+
+.bg-cyan-500 { background-color: rgb(var(--color-primary-medium-rgb)); }
+.bg-cyan-600 { background-color: rgb(var(--color-primary-dark-rgb)); }
+
+.from-cyan-300 { --tw-gradient-from: rgb(var(--color-primary-light-rgb)) var(--tw-gradient-from-position); --tw-gradient-to: rgb(var(--color-primary-light-rgb) / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+.from-cyan-500 { --tw-gradient-from: rgb(var(--color-primary-medium-rgb)) var(--tw-gradient-from-position); --tw-gradient-to: rgb(var(--color-primary-medium-rgb) / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+.to-blue-600 { --tw-gradient-to: rgb(var(--color-gradient-end-rgb)) var(--tw-gradient-to-position); }
+
+/* Opacity variants */
+.bg-cyan-400\/10 { background-color: rgb(var(--color-primary-rgb) / 0.1); }
+.bg-cyan-900\/50 { background-color: rgb(var(--color-primary-darker-rgb) / 0.5); }
+.border-cyan-400\/30 { border-color: rgb(var(--color-primary-rgb) / 0.3); }
+.border-cyan-700\/60 { border-color: rgb(var(--color-primary-darker-rgb) / 0.6); }
+
+/* Ring & Focus States */
+.ring-cyan-400, .ring-cyan-500 { --tw-ring-color: rgb(var(--color-primary-rgb)); }
+.focus\:ring-cyan-400\/50:focus { --tw-ring-color: rgb(var(--color-primary-rgb) / 0.5); }
+.focus\:border-cyan-400:focus { border-color: rgb(var(--color-primary-rgb)); }
+.focus-visible\:ring-cyan-500:focus-visible { --tw-ring-color: rgb(var(--color-primary-medium-rgb)); }
+.focus\:ring-2:focus { --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color); box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000); }
+
+/* Hover States */
+.hover\:bg-cyan-400:hover { background-color: rgb(var(--color-primary-rgb)); }
+.hover\:bg-cyan-500:hover { background-color: rgb(var(--color-primary-medium-rgb)); }
+.hover\:bg-cyan-600:hover { background-color: rgb(var(--color-primary-dark-rgb)); }
+.hover\:bg-cyan-700:hover { background-color: rgb(var(--color-primary-darker-rgb)); }
+.hover\:text-cyan-400:hover { color: rgb(var(--color-primary-rgb)); }
+.hover\:border-cyan-400\/50:hover { border-color: rgb(var(--color-primary-rgb) / 0.5); }
+.hover\:border-cyan-400\/30:hover { border-color: rgb(var(--color-primary-rgb) / 0.3); }
+.group:hover .group-hover\:text-cyan-400 { color: rgb(var(--color-primary-rgb)); }
+.group:hover .group-hover\:border-cyan-400\/50 { border-color: rgb(var(--color-primary-rgb) / 0.5); }
+
+/* Shadow States */
+.shadow-cyan-500\/20 { --tw-shadow-color: rgb(var(--color-primary-medium-rgb) / 0.2); }
+.hover\:shadow-cyan-400\/20:hover { --tw-shadow-color: rgb(var(--color-primary-rgb) / 0.2); }
+.hover\:shadow-cyan-500\/30:hover { --tw-shadow-color: rgb(var(--color-primary-medium-rgb) / 0.3); }
+.hover\:shadow-cyan-500\/40:hover { --tw-shadow-color: rgb(var(--color-primary-medium-rgb) / 0.4); }
