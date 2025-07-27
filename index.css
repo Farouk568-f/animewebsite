@@ -1,0 +1,208 @@
+:root {
+  --default-font: "Poppins", sans-serif;
+  --heading-font: "Inter", sans-serif;
+  --nav-font: "Poppins", sans-serif;
+
+  --border-radius: 0.75rem; /* 12px */
+  --border-radius-lg: 1rem; /* 16px */
+  --border-radius-full: 9999px;
+
+  --default-color-rgb: 203 213 225; /* slate-300 */
+  --heading-color-rgb: 248 250 252; /* slate-50 */
+  --contrast-color-rgb: 2 6 23;      /* slate-950 */
+}
+
+/* --- Blue Theme (Default) --- */
+body, body[data-theme='blue'] {
+  --color-primary-rgb: 34 211 238;        /* cyan-400 */
+  --color-primary-light-rgb: 103 232 249;   /* cyan-300 */
+  --color-primary-medium-rgb: 6 182 212;    /* cyan-500 */
+  --color-primary-dark-rgb: 8 145 178;      /* cyan-600 */
+  --color-primary-darker-rgb: 14 116 144;   /* cyan-700 */
+  --color-gradient-end-rgb: 37 99 235;      /* blue-600 */
+
+  --background-color-rgb: 10 17 36;       /* Deeper Slate */
+  --surface-color-rgb: 21 30 54;        /* Deeper Slate Surface */
+}
+
+/* --- Red Theme --- */
+body[data-theme='red'] {
+  --color-primary-rgb: 248 113 113;      /* red-400 */
+  --color-primary-light-rgb: 252 165 165; /* red-300 */
+  --color-primary-medium-rgb: 239 68 68;  /* red-500 */
+  --color-primary-dark-rgb: 220 38 38;    /* red-600 */
+  --color-primary-darker-rgb: 185 28 28;  /* red-700 */
+  --color-gradient-end-rgb: 249 115 22;   /* orange-500 */
+  
+  --background-color-rgb: 24 5 5;        /* very dark red */
+  --surface-color-rgb: 40 10 10;       /* dark red */
+}
+
+/* --- Green Theme --- */
+body[data-theme='green'] {
+  --color-primary-rgb: 74 222 128;      /* green-400 */
+  --color-primary-light-rgb: 134 239 172; /* green-300 */
+  --color-primary-medium-rgb: 34 197 94;  /* green-500 */
+  --color-primary-dark-rgb: 22 163 74;    /* green-600 */
+  --color-primary-darker-rgb: 21 128 61;  /* green-700 */
+  --color-gradient-end-rgb: 13 148 136;   /* teal-600 */
+  
+  --background-color-rgb: 4 22 12;        /* very dark green */
+  --surface-color-rgb: 10 38 23;       /* dark green */
+}
+
+/* --- Purple Theme --- */
+body[data-theme='purple'] {
+  --color-primary-rgb: 192 132 252;      /* purple-400 */
+  --color-primary-light-rgb: 216 180 254; /* purple-300 */
+  --color-primary-medium-rgb: 168 85 247;  /* purple-500 */
+  --color-primary-dark-rgb: 147 51 234;    /* purple-600 */
+  --color-primary-darker-rgb: 126 34 206;  /* purple-700 */
+  --color-gradient-end-rgb: 79 70 229;   /* indigo-600 */
+  
+  --background-color-rgb: 19 10 28;        /* very dark purple */
+  --surface-color-rgb: 32 20 46;       /* dark purple */
+}
+
+/* --- Orange Theme --- */
+body[data-theme='orange'] {
+  --color-primary-rgb: 251 146 60;      /* orange-400 */
+  --color-primary-light-rgb: 253 186 116; /* orange-300 */
+  --color-primary-medium-rgb: 249 115 22;  /* orange-500 */
+  --color-primary-dark-rgb: 234 88 12;    /* orange-600 */
+  --color-primary-darker-rgb: 194 65 12;  /* orange-700 */
+  --color-gradient-end-rgb: 220 38 38;   /* red-600 */
+  
+  --background-color-rgb: 30 15 0;        /* very dark orange */
+  --surface-color-rgb: 48 28 2;        /* dark orange */
+}
+
+/* Connect RGB variables to semantic variables */
+body[data-theme] {
+  --color-primary: rgb(var(--color-primary-rgb));
+  --color-primary-light: rgb(var(--color-primary-light-rgb));
+  --color-primary-medium: rgb(var(--color-primary-medium-rgb));
+  --color-primary-dark: rgb(var(--color-primary-dark-rgb));
+  --color-primary-darker: rgb(var(--color-primary-darker-rgb));
+  --color-gradient-end: rgb(var(--color-gradient-end-rgb));
+
+  --background-color: rgb(var(--background-color-rgb));
+  --surface-color: rgb(var(--surface-color-rgb));
+  --default-color: rgb(var(--default-color-rgb));
+  --heading-color: rgb(var(--heading-color-rgb));
+  --contrast-color: rgb(var(--contrast-color-rgb));
+}
+
+/* --- Base Styles --- */
+body {
+  font-family: var(--default-font);
+  color: var(--default-color);
+  background-color: var(--background-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.5s ease;
+  overflow-x: hidden;
+}
+
+.section {
+  color: var(--default-color);
+  background-color: transparent;
+  padding: 80px 0;
+  scroll-margin-top: 90px;
+  overflow: clip;
+}
+
+.section-title {
+  text-align: center;
+  padding-bottom: 60px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-family: var(--heading-font);
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  position: relative;
+  color: var(--heading-color);
+  letter-spacing: -0.02em;
+}
+
+.section-title h2:after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-gradient-end));
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border-radius: 2px;
+}
+
+.sitename {
+  font-family: var(--heading-font);
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: -0.5px;
+  color: var(--heading-color);
+}
+
+/* Interactive Card Glow Effect */
+.interactive-card-glow {
+  position: relative;
+  border: 1px solid rgb(var(--surface-color-rgb) / 0.5);
+  transition: border-color 0.3s ease-in-out;
+}
+.interactive-card-glow:hover {
+  border-color: rgb(var(--color-primary-rgb) / 0.3);
+}
+
+.interactive-card-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit; /* Use parent's border-radius */
+  background: radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgb(var(--color-primary-rgb) / 0.15), transparent 80%);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.group:hover .interactive-card-glow::before {
+  opacity: 1;
+}
+
+/* Modern Scrollbar Styles */
+body::-webkit-scrollbar {
+    width: 12px;
+}
+body::-webkit-scrollbar-track {
+    background: var(--surface-color);
+}
+body::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--default-color-rgb) / 0.3);
+    border-radius: 20px;
+    border: 3px solid var(--surface-color);
+}
+body::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(var(--default-color-rgb) / 0.5);
+}
+
+/* Per-component Scrollbars */
+.movie-carousel::-webkit-scrollbar, .cast-carousel::-webkit-scrollbar {
+    height: 8px;
+}
+.movie-carousel::-webkit-scrollbar-track, .cast-carousel::-webkit-scrollbar-track {
+    background: transparent;
+}
+.movie-carousel::-webkit-scrollbar-thumb, .cast-carousel::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--surface-color-rgb) / 0.8);
+    border-radius: var(--border-radius-full);
+}
+.movie-carousel::-webkit-scrollbar-thumb:hover, .cast-carousel::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(var(--default-color-rgb) / 0.5);
+}
