@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
 import React, { useState, useEffect, useRef } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { FilmIcon } from '../constants.tsx';
@@ -16,7 +20,11 @@ interface HeaderProps {
 }
 
 const SearchIcon: React.FC<{className?: string}> = ({className}) => (
+<<<<<<< HEAD
     <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+=======
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
     </svg>
 );
@@ -53,7 +61,10 @@ const Header: React.FC<HeaderProps> = ({ onSearch, showSearch = true, activeProf
     return () => {
         window.removeEventListener('scroll', handleScroll);
         document.removeEventListener('mousedown', handleClickOutside);
+<<<<<<< HEAD
         if(searchTimeout.current) clearTimeout(searchTimeout.current);
+=======
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
     }
   }, [showSearch, searchQuery]);
   
@@ -86,6 +97,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, showSearch = true, activeProf
   };
 
   return (
+<<<<<<< HEAD
     <header className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${isScrolled ? 'py-3' : 'py-6'}`}>
       <div className={`container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`}>
         <div className={`flex items-center justify-between rounded-full pl-4 pr-2 sm:pl-6 sm:pr-4 transition-all duration-300 ${isScrolled ? 'bg-slate-900/80 backdrop-blur-lg shadow-2xl shadow-black/30 h-16' : 'h-20 bg-transparent'}`}>
@@ -117,12 +129,44 @@ const Header: React.FC<HeaderProps> = ({ onSearch, showSearch = true, activeProf
                             className="h-10 w-48 bg-slate-800/60 border border-slate-700/80 rounded-full pl-10 pr-4 text-sm focus:ring-2 focus:ring-[color:var(--color-primary)]/50 focus:bg-slate-700/80 focus:border-[color:var(--color-primary-dark)] focus:outline-none transition-all duration-300 placeholder-slate-400 text-slate-200"
                         />
                         <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none"/>
+=======
+    <header className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${isScrolled ? 'py-2' : 'py-6'}`}>
+      <div className={`container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`}>
+        <div className={`flex items-center justify-between rounded-full pl-4 pr-2 sm:pl-6 sm:pr-4 transition-all duration-300 ${isScrolled ? 'bg-slate-900/80 backdrop-blur-lg shadow-2xl shadow-black/30 h-16' : 'h-20 bg-transparent'}`}>
+            <a href="#" onClick={handleLogoClick} className="flex items-center space-x-3">
+              <FilmIcon className="w-8 h-8 text-[color:var(--color-primary)]" />
+              {/* Added a subtle shadow to the site name for better readability */}
+              <span className="sitename text-xl sm:text-3xl text-white whitespace-nowrap [text-shadow:1px_1px_2px_rgb(0_0_0_/_50%)]">AnimeVerse</span>
+            </a>
+            <div className="flex items-center gap-4">
+                {showSearch && (
+                  <nav className="hidden lg:flex items-center space-x-2 font-medium text-slate-300">
+                    {navLinks.map((link) => (
+                      <a key={link.name} href={link.href} className="whitespace-nowrap transition-colors duration-200 text-base px-2 sm:px-4 py-2 rounded-md hover:text-[color:var(--color-primary)]">
+                        {link.name}
+                      </a>
+                    ))}
+                  </nav>
+                )}
+                {showSearch && (
+                     <form onSubmit={(e) => e.preventDefault()} className="relative">
+                        <input 
+                            ref={searchInputRef}
+                            type="search"
+                            placeholder="Search anime..."
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                            className="h-10 w-32 sm:w-48 bg-slate-800/60 border border-slate-700 rounded-full pl-10 pr-4 text-sm focus:ring-2 focus:ring-cyan-500 focus:bg-slate-700/80 focus:border-cyan-600 focus:outline-none transition-all duration-300 placeholder-slate-400 text-slate-200"
+                        />
+                        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"/>
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
                     </form>
                 )}
                  {activeProfile && (
                     <div className="relative" ref={profileMenuRef}>
                         <button
                           onClick={() => setIsProfileMenuOpen(v => !v)}
+<<<<<<< HEAD
                           className="group relative flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-[color:var(--color-primary)]"
                           aria-label="Account"
                         >
@@ -130,11 +174,29 @@ const Header: React.FC<HeaderProps> = ({ onSearch, showSearch = true, activeProf
                           {activeProfile.kids && (
                             <span 
                               className="absolute -bottom-1 -right-1 flex h-5 items-center justify-center rounded-full border-2 border-[color:var(--surface-color)] bg-amber-400 px-2 text-[10px] font-bold uppercase tracking-wider text-slate-900 shadow-md select-none" 
+=======
+                          className="group relative flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-cyan-500"
+                          aria-label="Account"
+                        >
+                          <img src={activeProfile.avatarUrl} alt={activeProfile.name} className="w-full h-full p-0.5 rounded-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                          
+                          {/******************************************************/}
+                          {/*               IMPROVED KIDS BADGE                  */}
+                          {/******************************************************/}
+                          {activeProfile.kids && (
+                            <span 
+                              className="absolute -bottom-1 -right-1 flex h-5 items-center justify-center rounded-full border-2 border-slate-800 bg-amber-400 px-2 text-[10px] font-bold uppercase tracking-wider text-slate-900 shadow-md select-none" 
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
                               title="Kids Profile"
                             >
                               Kids
                             </span>
                           )}
+<<<<<<< HEAD
+=======
+                          {/******************************************************/}
+
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
                         </button>
                         <AnimatePresence>
                         {isProfileMenuOpen && (
@@ -157,4 +219,8 @@ const Header: React.FC<HeaderProps> = ({ onSearch, showSearch = true, activeProf
   );
 };
 
+<<<<<<< HEAD
 export default Header;
+=======
+export default Header;
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a

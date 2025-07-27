@@ -14,7 +14,10 @@
     "@types/aos": "^3.0.7",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
+<<<<<<< HEAD
     "@vitejs/plugin-react": "^4.7.0",
+=======
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
     "aos": "2.3.1",
     "framer-motion": "^11.3.8",
     "react": "^19.1.0",
@@ -24,6 +27,10 @@
   "devDependencies": {
     "@types/node": "^22.14.0",
     "typescript": "~5.7.2",
+<<<<<<< HEAD
     "vite": "^6.3.5"
+=======
+    "vite": "^6.2.0"
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
   }
 }

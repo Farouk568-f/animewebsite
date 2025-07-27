@@ -195,19 +195,33 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ media, episode, onClose, setC
 
   // تكبير الصفحة عند فتح المشغل وإعادتها عند الإغلاق
   useEffect(() => {
+<<<<<<< HEAD
     const prevZoom = (document.body.style as any).zoom || '';
     (document.body.style as any).zoom = '1.8';
     return () => {
       (document.body.style as any).zoom = prevZoom || '1';
+=======
+    const prevZoom = document.body.style.zoom || '';
+    document.body.style.zoom = '1.8';
+    return () => {
+      document.body.style.zoom = prevZoom || '1';
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
     };
   }, []);
 
   if (!media.imdb_id && !media.id) {
     return (
+<<<<<<< HEAD
       <div className="fixed inset-0 bg-[color:var(--background-color)] z-50 flex flex-col items-center justify-center text-white p-4">
         <h2 className="text-2xl font-bold text-red-400 mb-4">⚠️ Error: No Valid ID</h2>
         <p className="text-center mb-6">This content cannot be played because it is missing a valid IMDb or TMDB ID.</p>
         <button onClick={onClose} className="px-6 py-2 bg-[color:var(--color-primary-dark)] rounded-full font-bold hover:bg-[color:var(--color-primary)] transition-colors">Close</button>
+=======
+      <div className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center text-white p-4">
+        <h2 className="text-2xl font-bold text-red-400 mb-4">⚠️ خطأ: لا يوجد معرف صالح</h2>
+        <p className="text-center mb-6">لا يمكن تشغيل هذا العمل لعدم توفر أي من IMDb أو TMDB ID.</p>
+        <button onClick={onClose} className="px-6 py-2 bg-[color:var(--color-primary-dark)] rounded-full font-bold hover:bg-[color:var(--color-primary)] transition-colors">إغلاق</button>
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
       </div>
     );
   }
@@ -222,7 +236,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ media, episode, onClose, setC
     const title = media.media_type === 'tv' ? `${media.title} - S${episode?.season_number} E${episode?.episode_number}` : media.title;
     if (!media.imdb_id) {
       return (
+<<<<<<< HEAD
         <div className="fixed inset-0 bg-[color:var(--surface-color)] z-50 flex flex-col items-center justify-center text-white p-6 text-center">
+=======
+        <div className="fixed inset-0 bg-gray-900 z-50 flex flex-col items-center justify-center text-white p-6 text-center">
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
             <h2 className="text-2xl font-semibold text-white mb-3">Playback Error</h2>
             <p className="text-gray-400 max-w-md mb-8">
               We couldn't find the necessary ID to play this content. It might not be available from our streaming sources.
@@ -329,7 +347,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ media, episode, onClose, setC
         />
       ) : (
         <div className="flex items-center justify-center w-full h-full text-red-500 text-xl font-bold bg-black">
+<<<<<<< HEAD
           ⚠️ Cannot load video - ID is invalid or not available
+=======
+          ⚠️ لا يمكن تحميل الفيديو - المعرف غير صالح أو غير متوفر
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
         </div>
       )}
     </div>
@@ -372,4 +394,8 @@ if (typeof window !== 'undefined' && !document.head.querySelector('style[data-in
   document.head.appendChild(style);
 }
 
+<<<<<<< HEAD
 export default VideoPlayer;
+=======
+export default VideoPlayer;
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a

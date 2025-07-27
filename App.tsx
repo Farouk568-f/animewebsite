@@ -17,7 +17,11 @@ import ProfileGate from './components/ProfileGate.tsx';
 import ManageProfilesPage from './components/ManageProfilesPage.tsx';
 import AccountPage from './components/AccountPage.tsx';
 
+<<<<<<< HEAD
 import { getHomePageData, getKidsHomePageData, getMediaDetails } from './services/animeService.ts';
+=======
+import { getHomePageData, getKidsHomePageData, searchMedia } from './services/animeService.ts';
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
 import { Media, Episode, Profile } from './types.ts';
 import { PlayIcon } from './constants.tsx';
 
@@ -40,7 +44,11 @@ const ContinueWatchingCarousel: React.FC<{ list: any[], onPlay: (media: Media, e
             {list.map(item => (
                 <button
                     key={`${item.id}-${item.mediaType}-${item.season || 'm'}-${item.episode || 'e'}`}
+<<<<<<< HEAD
                     className="group relative flex-shrink-0 w-48 lg:w-56 h-auto aspect-[2/3] rounded-xl overflow-hidden shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]"
+=======
+                    className="group relative flex-shrink-0 w-48 lg:w-56 h-auto aspect-[2/3] rounded-xl overflow-hidden shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
                     onClick={() => {
                         onPlay({
                             id: item.id, media_type: item.mediaType, title: item.title, poster_path: item.poster, imdb_id: item.imdb_id,
@@ -79,7 +87,10 @@ const App: React.FC = () => {
     const [isPageLoading, setIsPageLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [continueWatchingList, setContinueWatchingList] = useState<any[]>([]);
+<<<<<<< HEAD
     const [detailedMedia, setDetailedMedia] = useState<Media | null>(null);
+=======
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
 
     const [currentView, setCurrentView] = useState<{ page: 'home' | 'details' | 'search' | 'library' | 'manageProfiles' | 'account', mediaId?: number, mediaType?: 'movie' | 'tv', query?: string }>({ page: 'home' });
     const [videoPlayer, setVideoPlayer] = useState<{ media: Media; episode?: Episode } | null>(null);
@@ -97,7 +108,11 @@ const App: React.FC = () => {
     const springConfig = { stiffness: 400, damping: 90 };
     const smoothMouseX = useSpring(mouseX, springConfig);
     const smoothMouseY = useSpring(mouseY, springConfig);
+<<<<<<< HEAD
     const gradient = useMotionTemplate`radial-gradient(450px circle at ${smoothMouseX}px ${smoothMouseY}px, rgba(var(--color-primary-rgb), 0.15), transparent 80%)`;
+=======
+    const gradient = useMotionTemplate`radial-gradient(450px circle at ${smoothMouseX}px ${smoothMouseY}px, rgba(22, 163, 165, 0.15), transparent 80%)`;
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
 
     // --- Effects ---
     useEffect(() => {
@@ -107,12 +122,15 @@ const App: React.FC = () => {
     }, [mouseX, mouseY]);
 
     useEffect(() => {
+<<<<<<< HEAD
         // Apply theme on navigation
         const savedThemeJSON = localStorage.getItem('theme');
         const savedTheme = savedThemeJSON ? JSON.parse(savedThemeJSON) : 'blue';
         document.body.dataset.theme = savedTheme;
 
 
+=======
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
         const handleHashChange = () => {
             const hash = window.location.hash;
             const detailsMatch = hash.match(/^#\/(movie|tv)\/(\d+)/);
@@ -121,6 +139,7 @@ const App: React.FC = () => {
             window.scrollTo(0, 0);
 
             if (currentView.page === 'manageProfiles' || currentView.page === 'account') {
+<<<<<<< HEAD
                 return;
             }
 
@@ -131,14 +150,27 @@ const App: React.FC = () => {
               // Fetch new details when hash changes
               getMediaDetails(mediaId, mediaType).then(setDetailedMedia).catch(() => setDetailedMedia(null));
             }
+=======
+                // Do nothing, we are on a special page not controlled by hash
+                return;
+            }
+
+            if (detailsMatch) setCurrentView({ page: 'details', mediaType: detailsMatch[1] as 'movie' | 'tv', mediaId: parseInt(detailsMatch[2], 10) });
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
             else if (searchMatch) setCurrentView({ page: 'search', query: decodeURIComponent(searchMatch[1]) });
             else if (libraryMatch) setCurrentView({ page: 'library' });
             else setCurrentView({ page: 'home' });
         };
         window.addEventListener('hashchange', handleHashChange);
+<<<<<<< HEAD
         handleHashChange(); // Initial call
         return () => window.removeEventListener('hashchange', handleHashChange);
     }, [currentView.page]); // Rerun if we navigate away from a special page
+=======
+        handleHashChange();
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, [currentView.page]);
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
 
     useEffect(() => {
         AOS.init({ duration: 800, once: true, offset: 50 });
@@ -162,6 +194,7 @@ const App: React.FC = () => {
                 setIsPageLoading(false);
             }
         };
+<<<<<<< HEAD
         if (activeProfile) {
           if (currentView.page === 'home' && trending.length === 0) {
             fetchAllMedia();
@@ -169,6 +202,14 @@ const App: React.FC = () => {
         }
     }, [currentView.page, trending.length, activeProfile]);
 
+=======
+        if (currentView.page === 'home' && trending.length === 0 && activeProfile) {
+            fetchAllMedia();
+        }
+    }, [currentView.page, trending.length, activeProfile]);
+
+    // عند تغيير الحساب النشط، حمّل قائمة المشاهدة الخاصة به
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
     useEffect(() => {
       if (activeProfile) {
         const data = localStorage.getItem(`continueWatchingList_${activeProfile.id}`);
@@ -176,12 +217,20 @@ const App: React.FC = () => {
       }
     }, [activeProfile]);
 
+<<<<<<< HEAD
+=======
+    // عند تحديث قائمة المشاهدة، احفظها في localStorage الخاص بالحساب النشط
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
     useEffect(() => {
       if (activeProfile) {
         localStorage.setItem(`continueWatchingList_${activeProfile.id}`, JSON.stringify(continueWatchingList));
       }
     }, [continueWatchingList, activeProfile]);
 
+<<<<<<< HEAD
+=======
+    // احفظ الحسابات في localStorage عند أي تغيير
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
     useEffect(() => {
       localStorage.setItem('profiles', JSON.stringify(profiles));
     }, [profiles]);
@@ -195,6 +244,10 @@ const App: React.FC = () => {
         window.location.hash = `#/search/${encodeURIComponent(query)}`;
     }, [currentView.page]);
 
+<<<<<<< HEAD
+=======
+    // مرر setContinueWatchingList إلى VideoPlayer ليتم تحديث القائمة عند المشاهدة
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
     const openVideoPlayer = useCallback((media: Media, episode?: Episode) => setVideoPlayer({ media, episode }), []);
     const closeVideoPlayer = useCallback(() => setVideoPlayer(null), []);
     const handleCardClick = useCallback((media: Media) => window.location.hash = `#/${media.media_type}/${media.id}`, []);
@@ -203,6 +256,10 @@ const App: React.FC = () => {
     const handleProfileSelect = (profile: Profile) => {
       setActiveProfile(profile);
       setCurrentView({ page: 'home' });
+<<<<<<< HEAD
+=======
+      // Force a refetch for the new profile by clearing current data
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
       setTrending([]);
       setPopularMovies([]);
       setTopRatedTv([]);
@@ -230,6 +287,7 @@ const App: React.FC = () => {
       }
       setProfiles(prev => prev.filter(p => p.id !== profileId));
       if (activeProfile?.id === profileId) {
+<<<<<<< HEAD
         setActiveProfile(null); 
       }
     };
@@ -240,6 +298,12 @@ const App: React.FC = () => {
         }
     };
 
+=======
+        setActiveProfile(null); // Go back to profile gate if active is deleted
+      }
+    };
+
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
     // --- Render Logic ---
     if (!activeProfile) {
         return <ProfileGate profiles={profiles} onProfileSelect={handleProfileSelect} onAddProfile={handleAddProfile} />;
@@ -253,6 +317,10 @@ const App: React.FC = () => {
     
     const renderContent = () => {
         if (activeProfile?.kids && (currentView.page === 'home' || currentView.page === 'library')) {
+<<<<<<< HEAD
+=======
+          // نسخة الأطفال: سلايدر وأقسام مخصصة للأطفال فقط
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
           return (
             <>
               <HeroSlider movies={trending.filter(m => m.genres?.some(g => g.name.toLowerCase().includes('kids') || g.name.toLowerCase().includes('family')))} isLoading={isPageLoading} onCardClick={handleCardClick} />
@@ -269,16 +337,30 @@ const App: React.FC = () => {
                   </>
                 )}
               </div>
+<<<<<<< HEAD
             </>
           );
         }
+=======
+              {/* يمكنك إضافة أقسام أو مميزات إضافية لواجهة الأطفال هنا */}
+            </>
+          );
+        }
+        // الواجهة العادية
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
         switch (currentView.page) {
             case 'manageProfiles':
               return <ManageProfilesPage profiles={profiles} onUpdateProfile={handleUpdateProfile} onDeleteProfile={handleDeleteProfile} onDone={handleReturnHome} />;
             case 'account':
+<<<<<<< HEAD
               return <AccountPage activeProfile={activeProfile} onBack={handleReturnHome} onClearWatchHistory={handleClearWatchHistory} />;
             case 'details':
               return <AnimeDetailsPage media={detailedMedia} onPlay={openVideoPlayer} onCloseVideoPlayer={closeVideoPlayer} />;
+=======
+              return <AccountPage activeProfile={activeProfile} onBack={handleReturnHome} />;
+            case 'details':
+              return <AnimeDetailsPage mediaId={currentView.mediaId!} mediaType={currentView.mediaType!} onPlay={openVideoPlayer} onCloseVideoPlayer={closeVideoPlayer} />;
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
             case 'library':
                 return <AnimeLibrary />;
             case 'search':
@@ -308,7 +390,11 @@ const App: React.FC = () => {
     };
 
     return (
+<<<<<<< HEAD
         <div className="font-sans antialiased overflow-x-hidden">
+=======
+        <div className="bg-slate-950 text-slate-300 font-sans antialiased overflow-x-hidden">
+>>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
             <motion.div className="pointer-events-none fixed inset-0 z-30" style={{ background: gradient }} />
             <Header
                 onSearch={handleSearch}
