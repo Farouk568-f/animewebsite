@@ -5,6 +5,29 @@ export interface Genre {
   name: string;
 }
 
+// New types for details page
+export interface CastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile_path: string | null;
+}
+
+export interface CrewMember {
+  id: number;
+  name:string;
+  job: string;
+  profile_path: string | null;
+}
+
+export interface Video {
+  id: string;
+  key: string;
+  name: string;
+  site: string;
+  type: string;
+}
+
 export interface Media {
   id: number;
   title: string;
@@ -17,6 +40,14 @@ export interface Media {
   media_type: 'movie' | 'tv';
   imdb_id?: string | null;
   seasons?: any[];
+  // Added properties
+  tagline?: string | null;
+  videos?: { results: Video[] };
+  credits?: { cast: CastMember[], crew: CrewMember[] };
+  recommendations?: Media[];
+  status?: string;
+  number_of_seasons?: number;
+  number_of_episodes?: number;
 }
 
 export interface Episode {
@@ -49,7 +80,7 @@ export interface DownloadFormat {
     note?: string;
     filesize: number | null;
     vcodec?: string;
-acodec?: string;
+    acodec?: string;
     type: 'video' | 'audio';
 }
 
@@ -73,4 +104,17 @@ export interface Profile {
   name: string;
   avatarUrl: string;
   kids?: boolean;
+}
+
+export interface HomePageData {
+    trending: Media[];
+    popularMovies: Media[];
+    topRatedTv: Media[];
+    upcomingMovies: Media[];
+}
+
+export interface DiscoverPageData {
+  top10Week: Media[];
+  allTimeGrossing: Media[];
+  popularAnime: Media[];
 }

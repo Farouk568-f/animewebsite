@@ -23,6 +23,7 @@ const SearchIcon: React.FC<{className?: string}> = ({className}) => (
 );
 
 const navLinks = [
+    { name: "Discover", href: "#/discover" },
     { name: "Library", href: "#/library" },
     { name: "Popular", href: "#popular" },
     { name: "Top Rated", href: "#top-rated" },

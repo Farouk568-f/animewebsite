@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Testimonial } from './types.ts';
+import { Testimonial } from './types';
 
 export const PlayIcon: React.FC<{className?: string}> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -61,12 +61,6 @@ export const ChevronRightIcon: React.FC<{className?: string}> = ({ className }) 
     </svg>
 );
 
-export const DownloadIcon: React.FC<{className?: string}> = ({ className }) => (
-    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-    </svg>
-);
-
 export const UserIcon: React.FC<{className?: string}> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
@@ -103,15 +97,12 @@ export const MagnifyingGlassIcon: React.FC<{className?: string}> = ({ className 
   </svg>
 );
 
-// --- NEWLY ADDED ICONS AND CONSTANTS ---
-
 // For Header.tsx Mobile Nav
 export const Bars3Icon: React.FC<{className?: string}> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
     </svg>
 );
-
 export const XMarkIcon: React.FC<{className?: string}> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -124,36 +115,37 @@ export const BellIcon: React.FC<{className?: string}> = ({ className }) => (
       <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
     </svg>
 );
-
 export const PlayPauseIcon: React.FC<{className?: string}> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5V18M15 7.5V18M3 16.811V8.69c0-1.036.84-1.875 1.875-1.875h1.575c1.036 0 1.875.84 1.875 1.875v8.121c0 1.035-.84 1.875-1.875 1.875H4.875C3.839 18.686 3 17.846 3 16.811z" />
     </svg>
 );
-
 export const PaintBrushIcon: React.FC<{className?: string}> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.47 2.118v-.09a2.25 2.25 0 012.244-2.244c1.062 0 2.002-.384 2.748-1.023.23-.163.44-.344.64-.543.202-.2.388-.41.56-.625a3.003 3.003 0 00.35-3.832V7.125A3.003 3.003 0 006.38 4.625a1.875 1.875 0 01-1.482-1.875v-.09A1.875 1.875 0 015.625 1h3.75a1.875 1.875 0 011.875 1.875v.09A1.875 1.875 0 019.375 4.625a3.003 3.003 0 002.748 2.498.038.038 0 01.032.026.04.04 0 01-.004.038l-.004.005a3.003 3.003 0 00-2.02 5.065.034.034 0 01-.013.023.036.036 0 01-.027.01z" />
     </svg>
 );
-
 export const TrashIcon: React.FC<{className?: string}> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.134-2.09-2.134H8.09a2.09 2.09 0 00-2.09 2.134v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.134-2.09-2.134H8.09a2.09 2.09 0 00-2.09 2.134v.916m12.91 0c0 2.652-2.134 4.786-4.786 4.786H8.09c-2.652 0-4.786-2.134-4.786-4.786m12.91 0H4.772" />
     </svg>
 );
 
-// For AccountPage.tsx - CheckCircleIcon
 export const CheckCircleIcon: React.FC<{className?: string}> = ({ className }) => (
-    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.06-1.06l-3.103 3.104-1.48-1.481a.75.75 0 10-1.06 1.061l2 2a.75.75 0 001.06 0l3.65-3.65z" clipRule="evenodd" />
     </svg>
 );
+
+// --- NEWLY ADDED ---
 
 // For ChatAssistant.tsx
 export const ChatIcon: React.FC<{className?: string}> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.455.09-.934.09-1.425v-2.502a5.973 5.973 0 01-1.1-2.924c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193l-3.722.266c-.53.038-.984.224-1.374.524a4.5 4.5 0 01-6.132 0c-.39-.3-.843-.486-1.373-.524l-3.723-.266A2.121 2.121 0 012.25 14.894V10.607c0-.97.616-1.813 1.5-2.097m16.5 0a2.121 2.121 0 00-1.5-2.097m-16.5 0A2.121 2.121 0 002.25 8.51v.003m16.5 0a2.121 2.121 0 00-1.5-2.097m-16.5 0A2.121 2.121 0 002.25 8.51v.003m16.5 0a2.121 2.121 0 00-1.5-2.097m-16.5 0A2.121 2.121 0 002.25 8.51v.003m16.5 0a2.121 2.121 0 00-1.5-2.097" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
     </svg>
 );
 
@@ -163,78 +155,80 @@ export const SendIcon: React.FC<{className?: string}> = ({ className }) => (
     </svg>
 );
 
-// For ClientsSection.tsx - using simple text as placeholder
-export const ToyotaLogo: React.FC = () => <span style={{ fontFamily: 'Arial, sans-serif', fontSize: '24px', fontWeight: 'bold', color: 'currentColor' }}>TOYOTA</span>;
-export const HondaLogo: React.FC = () => <span style={{ fontFamily: 'Arial, sans-serif', fontSize: '24px', fontWeight: 'bold', color: 'currentColor' }}>HONDA</span>;
-export const FordLogo: React.FC = () => <span style={{ fontFamily: 'cursive', fontSize: '28px', fontWeight: 'bold', color: 'currentColor' }}>Ford</span>;
-export const BmwLogo: React.FC = () => <span style={{ fontFamily: 'Arial, sans-serif', fontSize: '24px', fontWeight: 'bold', color: 'currentColor' }}>BMW</span>;
-export const MercedesLogo: React.FC = () => <span style={{ fontFamily: 'Arial, sans-serif', fontSize: '24px', fontWeight: 'bold', color: 'currentColor' }}>Mercedes</span>;
-export const AudiLogo: React.FC = () => <span style={{ fontFamily: 'Arial, sans-serif', fontSize: '24px', fontWeight: 'bold', color: 'currentColor' }}>Audi</span>;
-export const VolkswagenLogo: React.FC = () => <span style={{ fontFamily: 'Arial, sans-serif', fontSize: '24px', fontWeight: 'bold', color: 'currentColor' }}>VW</span>;
-export const NissanLogo: React.FC = () => <span style={{ fontFamily: 'Arial, sans-serif', fontSize: '24px', fontWeight: 'bold', color: 'currentColor' }}>NISSAN</span>;
-export const HyundaiLogo: React.FC = () => <span style={{ fontFamily: 'italic', fontSize: '28px', fontWeight: 'bold', color: 'currentColor' }}>Hyundai</span>;
-export const KiaLogo: React.FC = () => <span style={{ fontFamily: 'Arial, sans-serif', fontSize: '24px', fontWeight: 'bold', color: 'currentColor' }}>KIA</span>;
+// For ClientsSection.tsx
+export const ToyotaLogo: React.FC<{className?: string}> = ({ className }) => (<div className={className} style={{fontFamily:'sans-serif', fontWeight: 'bold', fontSize: '1.5rem'}}>TOYOTA</div>);
+export const HondaLogo: React.FC<{className?: string}> = ({ className }) => (<div className={className} style={{fontFamily:'sans-serif', fontWeight: 'bold', fontSize: '1.5rem'}}>HONDA</div>);
+export const FordLogo: React.FC<{className?: string}> = ({ className }) => (<div className={className} style={{fontFamily:'cursive', fontWeight: 'bold', fontSize: '2rem'}}>Ford</div>);
+export const BmwLogo: React.FC<{className?: string}> = ({ className }) => (<div className={className} style={{fontFamily:'sans-serif', fontWeight: 'bold', fontSize: '1.5rem'}}>BMW</div>);
+export const MercedesLogo: React.FC<{className?: string}> = ({ className }) => (<div className={className} style={{fontFamily:'sans-serif', fontWeight: 'bold', fontSize: '1.2rem'}}>Mercedes-Benz</div>);
+export const AudiLogo: React.FC<{className?: string}> = ({ className }) => (<div className={className} style={{fontFamily:'sans-serif', fontWeight: 'bold', fontSize: '1.5rem'}}>Audi</div>);
+export const VolkswagenLogo: React.FC<{className?: string}> = ({ className }) => (<div className={className} style={{fontFamily:'sans-serif', fontWeight: 'bold', fontSize: '1.5rem'}}>Volkswagen</div>);
+export const NissanLogo: React.FC<{className?: string}> = ({ className }) => (<div className={className} style={{fontFamily:'sans-serif', fontWeight: 'bold', fontSize: '1.5rem'}}>NISSAN</div>);
+export const HyundaiLogo: React.FC<{className?: string}> = ({ className }) => (<div className={className} style={{fontFamily:'cursive', fontWeight: 'bold', fontSize: '2rem'}}>Hyundai</div>);
+export const KiaLogo: React.FC<{className?: string}> = ({ className }) => (<div className={className} style={{fontFamily:'sans-serif', fontWeight: 'bold', fontSize: '1.5rem'}}>KIA</div>);
 
-// For HowItWorksSection.tsx
+// For HowItWorksSection.tsx & ResultsSection.tsx
 export const LinkIcon: React.FC<{className?: string}> = ({ className }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
-  </svg>
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+    </svg>
 );
-
 export const ListChecksIcon: React.FC<{className?: string}> = ({ className }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+);
+export const DownloadIcon: React.FC<{className?: string}> = ({ className }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+    </svg>
 );
 
 // For PartCard.tsx
 export const ShoppingCartIcon: React.FC<{className?: string}> = ({ className }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c.51 0 .962-.328 1.087-.826l3.828-9.086A.75.75 0 0021 3H5.25v.001M6 20.25a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm12.75 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-  </svg>
-);
-
-// For WhyChooseUsSection.tsx
-export const AiIcon: React.FC<{className?: string}> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V7.5a2.25 2.25 0 00-2.25-2.25H7.5A2.25 2.25 0 005.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
-    </svg>
-);
-
-export const QualityIcon: React.FC<{className?: string}> = ({ className }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.4-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.4-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.4 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.4.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-  </svg>
-);
-
-export const CarEngineIcon: React.FC<{className?: string}> = ({ className }) => (
-    <svg className={className} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c.51 0 .962-.328 1.093-.822l3.48-9.115a.75.75 0 00-.66-1.118H5.625M18 18h.008v.008H18V18zm-12 0h.008v.008H6V18z" />
     </svg>
 );
 
 // For TestimonialsSection.tsx
 export const TESTIMONIALS: Testimonial[] = [
     {
-        name: "خالد الأحمدي",
-        title: "مالك ورشة تصليح",
-        avatarUrl: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
+        name: 'أحمد الغامدي',
+        title: 'صاحب ورشة',
+        avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
         rating: 5,
-        text: "لقد غيّر هذا التطبيق طريقة عملي تمامًا. البحث عن طريق رقم الشاسيه دقيق بشكل لا يصدق ويوفر عليّ ساعات من البحث والتحقق. الأسعار تنافسية والخدمة ممتازة."
+        text: 'بصراحة، أفضل تطبيق لقطع غيار السيارات استخدمته. الواجهة سهلة والبحث بالصورة ميزة عبقرية! وفر علي وقت كثير جداً.'
     },
     {
-        name: "فاطمة الزهراني",
-        title: "مالكة سيارة",
-        avatarUrl: "https://i.pravatar.cc/150?u=a042581f4e29026705d",
+        name: 'سارة عبدالله',
+        title: 'مالكة سيارة',
+        avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026705d',
         rating: 5,
-        text: "كتجربة أولى، أنا منبهرة. استطعت العثور على فلتر الزيت لسيارتي خلال دقائق ووصلني في اليوم التالي مباشرة. واجهة التطبيق سهلة والاستخدام سلس جدًا. أنصح به بشدة."
+        text: 'وجدت كل القطع اللي أحتاجها لسيارتي بأسعار ممتازة. التوصيل كان سريع والمقارنة بين الموردين ساعدتني كثير. أنصح فيه وبقوة!'
     },
     {
-        name: "سالم الحربي",
-        title: "هاوي سيارات",
-        avatarUrl: "https://i.pravatar.cc/150?u=a042581f4e29026706d",
+        name: 'محمد الشهري',
+        title: 'مهندس ميكانيكي',
+        avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026706d',
         rating: 4,
-        text: "مجموعة واسعة من قطع الغيار الأصلية والبديلة. ميزة مقارنة الأسعار ساعدتني في الحصول على أفضل صفقة لسيارتي. أتمنى إضافة المزيد من قطع التعديل والأداء في المستقبل."
-    }
+        text: 'التطبيق شامل ويغطي معظم الماركات. المساعد الذكي دقيق ومفيد، لكن أتمنى إضافة المزيد من التفاصيل الفنية لبعض القطع.'
+    },
 ];
+
+// For WhyChooseUsSection.tsx
+export const AiIcon: React.FC<{className?: string}> = ({ className }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.25 12L17 14.25l-1.25-2.25L13.5 11l2.25-1.25L17 7.5l1.25 2.25L20.5 11l-2.25 1.25z" />
+    </svg>
+);
+export const QualityIcon: React.FC<{className?: string}> = ({ className }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.745 3.745 0 013.296-1.043A3.745 3.745 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.745 3.745 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+    </svg>
+);
+export const CarEngineIcon: React.FC<{className?: string}> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.83-5.83M11.42 15.17l2.47-2.47a1.65 1.65 0 00-2.332-2.332l-2.47 2.47M11.42 15.17L5.83 21M11.42 15.17l-2.47-2.47a1.65 1.65 0 00-2.332 0l-2.47 2.47m12.666-12.666L15.17 11.42m5.83-5.83l-5.83 5.83M12.75 3l-1.5 1.5m0 0l-1.5-1.5m1.5 1.5V1.5m0 .01L12.75 3z" />
+    </svg>
+);

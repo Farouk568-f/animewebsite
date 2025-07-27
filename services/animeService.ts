@@ -1,6 +1,6 @@
 // src/services/animeService.ts
 
-import { Media, Episode, HomePageData } from '../types.ts';
+import { Media, Episode, HomePageData, DiscoverPageData } from '../types.ts';
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -80,6 +80,21 @@ export const getHomePageData = async (): Promise<HomePageData> => {
     popularMovies: popularMoviesRes.results.map(normalizeMediaData),
     topRatedTv: topRatedTvRes.results.map(normalizeMediaData),
     upcomingMovies: upcomingMoviesRes.results.map(normalizeMediaData),
+  };
+};
+
+export const getDiscoverPageData = async (): Promise<DiscoverPageData> => {
+  await fetchGenres();
+  const [top10WeekRes, allTimeGrossingRes, popularAnimeRes] = await Promise.all([
+    fetchFromTMDB<{ results: any[] }>('trending/tv/week'),
+    fetchFromTMDB<{ results: any[] }>('discover/movie?sort_by=revenue.desc'),
+    fetchFromTMDB<{ results: any[] }>('discover/tv?with_genres=16&sort_by=popularity.desc&with_original_language=ja'),
+  ]);
+
+  return {
+    top10Week: top10WeekRes.results.slice(0, 10).map(normalizeMediaData),
+    allTimeGrossing: allTimeGrossingRes.results.map(normalizeMediaData),
+    popularAnime: popularAnimeRes.results.map(normalizeMediaData),
   };
 };
 

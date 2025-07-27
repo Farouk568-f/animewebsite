@@ -17,9 +17,11 @@ import AnimeLibrary from './components/AnimeLibrary.tsx';
 import ProfileGate from './components/ProfileGate.tsx';
 import ManageProfilesPage from './components/ManageProfilesPage.tsx';
 import AccountPage from './components/AccountPage.tsx';
+import DiscoverPage from './components/DiscoverPage.tsx';
+import RankedMovieCarousel from './components/RankedMovieCarousel.tsx';
 
-import { getHomePageData, getKidsHomePageData, getMediaDetails } from './services/animeService.ts';
-import { Media, Episode, Profile } from './types.ts';
+import { getHomePageData, getKidsHomePageData, getMediaDetails, getDiscoverPageData } from './services/animeService.ts';
+import { Media, Episode, Profile, DiscoverPageData } from './types.ts';
 import { PlayIcon } from './constants.tsx';
 
 
@@ -79,12 +81,14 @@ const App: React.FC = () => {
     const [popularMovies, setPopularMovies] = useState<Media[]>([]);
     const [topRatedTv, setTopRatedTv] = useState<Media[]>([]);
     const [upcomingMovies, setUpcomingMovies] = useState<Media[]>([]);
+    const [discoverPageData, setDiscoverPageData] = useState<DiscoverPageData | null>(null);
     const [isPageLoading, setIsPageLoading] = useState<boolean>(true);
+    const [isDiscoverLoading, setIsDiscoverLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [continueWatchingList, setContinueWatchingList] = useState<any[]>([]);
     const [detailedMedia, setDetailedMedia] = useState<Media | null>(null);
 
-    const [currentView, setCurrentView] = useState<{ page: 'home' | 'details' | 'search' | 'library' | 'manageProfiles' | 'account', mediaId?: number, mediaType?: 'movie' | 'tv', query?: string }>({ page: 'home' });
+    const [currentView, setCurrentView] = useState<{ page: 'home' | 'details' | 'search' | 'library' | 'manageProfiles' | 'account' | 'discover', mediaId?: number, mediaType?: 'movie' | 'tv', query?: string }>({ page: 'home' });
     const [videoPlayer, setVideoPlayer] = useState<{ media: Media; episode?: Episode } | null>(null);
 
     // Profile State
@@ -110,17 +114,16 @@ const App: React.FC = () => {
     }, [mouseX, mouseY]);
 
     useEffect(() => {
-        // Apply theme on navigation
-        const savedThemeJSON = localStorage.getItem('theme');
-        const savedTheme = savedThemeJSON ? JSON.parse(savedThemeJSON) : 'blue';
+        // Apply theme on load and navigation
+        const savedTheme = JSON.parse(localStorage.getItem('theme') || JSON.stringify('blue'));
         document.body.dataset.theme = savedTheme;
-
 
         const handleHashChange = () => {
             const hash = window.location.hash;
             const detailsMatch = hash.match(/^#\/(movie|tv)\/(\d+)/);
             const searchMatch = hash.match(/^#\/search\/(.+)$/);
             const libraryMatch = hash.match(/^#\/library$/);
+            const discoverMatch = hash.match(/^#\/discover$/);
             window.scrollTo(0, 0);
 
             if (currentView.page === 'manageProfiles' || currentView.page === 'account') {
@@ -136,12 +139,13 @@ const App: React.FC = () => {
             }
             else if (searchMatch) setCurrentView({ page: 'search', query: decodeURIComponent(searchMatch[1]) });
             else if (libraryMatch) setCurrentView({ page: 'library' });
+            else if (discoverMatch) setCurrentView({ page: 'discover' });
             else setCurrentView({ page: 'home' });
         };
         window.addEventListener('hashchange', handleHashChange);
         handleHashChange(); // Initial call
         return () => window.removeEventListener('hashchange', handleHashChange);
-    }, [currentView.page]); // Rerun if we navigate away from a special page
+    }, []); 
 
     useEffect(() => {
         AOS.init({ duration: 800, once: true, offset: 50 });
@@ -165,12 +169,27 @@ const App: React.FC = () => {
                 setIsPageLoading(false);
             }
         };
+
+        const fetchDiscoverData = async () => {
+            try {
+              setIsDiscoverLoading(true);
+              const data = await getDiscoverPageData();
+              setDiscoverPageData(data);
+            } catch (err) {
+              setError("Failed to load Discover page data.");
+            } finally {
+              setIsDiscoverLoading(false);
+            }
+        };
+
         if (activeProfile) {
           if (currentView.page === 'home' && trending.length === 0) {
             fetchAllMedia();
+          } else if (currentView.page === 'discover' && !discoverPageData) {
+            fetchDiscoverData();
           }
         }
-    }, [currentView.page, trending.length, activeProfile]);
+    }, [currentView.page, activeProfile, trending.length, discoverPageData]);
 
     useEffect(() => {
       if (activeProfile) {
@@ -251,6 +270,7 @@ const App: React.FC = () => {
     const getPageKey = () => {
         if (currentView.page === 'details' && currentView.mediaId) return `details-${currentView.mediaId}`;
         if (currentView.page === 'search' && currentView.query) return `search-${currentView.query}`;
+        if (currentView.page === 'discover') return 'discover';
         return currentView.page;
     };
     
@@ -286,6 +306,8 @@ const App: React.FC = () => {
                 return <AnimeLibrary />;
             case 'search':
                 return <SearchPage initialQuery={currentView.query!} onCardClick={handleCardClick} activeProfile={activeProfile} />;
+            case 'discover':
+                return <DiscoverPage data={discoverPageData} isLoading={isDiscoverLoading} onCardClick={handleCardClick} />;
             case 'home':
             default:
                 return (
@@ -295,9 +317,10 @@ const App: React.FC = () => {
                             {continueWatchingList.length > 0 && <ContinueWatchingCarousel list={continueWatchingList} onPlay={openVideoPlayer} />}
                             {error && <p className="text-center text-red-500 bg-red-900/20 py-3 px-4 rounded-lg container mx-auto max-w-4xl">{error}</p>}
                             {isPageLoading ? (
-                                [...Array(3)].map((_, i) => <MovieCarouselSkeleton key={i} />)
+                                [...Array(4)].map((_, i) => <MovieCarouselSkeleton key={i} />)
                             ) : (
                                 <>
+                                    <RankedMovieCarousel id="trending" title="Top 10 This Week" movies={trending.slice(0, 10)} onCardClick={handleCardClick} />
                                     <MovieCarousel id="popular" title="Popular Movies" movies={popularMovies} onCardClick={handleCardClick} />
                                     <MovieCarousel id="top-rated" title="Top Rated TV Shows" movies={topRatedTv} onCardClick={handleCardClick} />
                                     <MovieCarousel id="upcoming" title="Upcoming Movies" movies={upcomingMovies} onCardClick={handleCardClick} />
@@ -315,7 +338,7 @@ const App: React.FC = () => {
             <motion.div className="pointer-events-none fixed inset-0 z-30" style={{ background: gradient }} />
             <Header
                 onSearch={handleSearch}
-                showSearch={currentView.page === 'home' || currentView.page === 'search' || currentView.page === 'library'}
+                showSearch={!['manageProfiles', 'account'].includes(currentView.page)}
                 activeProfile={activeProfile}
                 profiles={profiles}
                 onProfileSelect={handleProfileSelect}
