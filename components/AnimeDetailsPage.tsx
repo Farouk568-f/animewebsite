@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getTvSeasonDetails } from '../services/animeService.ts';
@@ -29,7 +30,7 @@ const DetailSection: React.FC<{ title: string; icon: React.ReactNode; children: 
     <motion.div variants={itemVariants} className="mt-12 md:mt-16">
         <div className="flex items-center gap-4 mb-6">
             <div className="text-[color:var(--color-primary)]">{icon}</div>
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-100 font-heading">{title}</h2>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-100 font-heading">{title}</h2>
         </div>
         {children}
     </motion.div>
@@ -97,7 +98,7 @@ const AnimeDetailsPage: React.FC<AnimeDetailsPageProps> = ({ media, onPlay, onCl
   return (
     <div className="min-h-screen text-white">
       {/* Background and Header */}
-      <div className="relative h-[60vh] md:h-[80vh] w-full">
+      <div className="relative h-[50vh] sm:h-[60vh] md:h-[80vh] w-full">
         {fullBackdropPath && (
             <img 
                 src={fullBackdropPath} 
@@ -111,7 +112,7 @@ const AnimeDetailsPage: React.FC<AnimeDetailsPageProps> = ({ media, onPlay, onCl
         </button>
       </div>
 
-      <motion.div variants={pageVariants} initial="hidden" animate="visible" className="relative z-10 -mt-[45vh] md:-mt-[45vh]">
+      <motion.div variants={pageVariants} initial="hidden" animate="visible" className="relative z-10 -mt-[35vh] sm:-mt-[40vh] md:-mt-[45vh]">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-20">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
             <motion.div variants={itemVariants} className="md:col-span-4 lg:col-span-3">
@@ -119,11 +120,11 @@ const AnimeDetailsPage: React.FC<AnimeDetailsPageProps> = ({ media, onPlay, onCl
             </motion.div>
 
             <div className="md:col-span-8 lg:col-span-9 flex flex-col pt-4 md:pt-16">
-              <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl lg:text-7xl font-black font-heading bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent mb-4 leading-tight drop-shadow-lg">
+              <motion.h1 variants={itemVariants} className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black font-heading bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent mb-4 leading-tight drop-shadow-lg">
                 {media.title}
               </motion.h1>
               
-              <motion.p variants={itemVariants} className="text-slate-300 text-lg md:text-xl font-light italic -mt-2 mb-6">
+              <motion.p variants={itemVariants} className="text-slate-300 text-base md:text-xl font-light italic -mt-2 mb-6">
                 {media.tagline}
               </motion.p>
 
@@ -168,7 +169,7 @@ const AnimeDetailsPage: React.FC<AnimeDetailsPageProps> = ({ media, onPlay, onCl
             <DetailSection title="Trailers" icon={<VideoCameraIcon className="w-8 h-8"/>}>
               <div className="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4 movie-carousel">
                 {trailers.map(trailer => (
-                  <div key={trailer.id} onClick={() => setSelectedTrailer(trailer)} className="group relative flex-shrink-0 w-80 h-44 rounded-lg overflow-hidden cursor-pointer bg-slate-800 border-2 border-slate-800 hover:border-[color:var(--color-primary)]/60 transition-all duration-300">
+                  <div key={trailer.id} onClick={() => setSelectedTrailer(trailer)} className="group relative flex-shrink-0 w-64 sm:w-80 h-44 rounded-lg overflow-hidden cursor-pointer bg-slate-800 border-2 border-slate-800 hover:border-[color:var(--color-primary)]/60 transition-all duration-300">
                     <img src={`https://img.youtube.com/vi/${trailer.key}/hqdefault.jpg`} alt={trailer.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
                         <h4 className="text-white font-semibold line-clamp-2">{trailer.name}</h4>
@@ -186,8 +187,8 @@ const AnimeDetailsPage: React.FC<AnimeDetailsPageProps> = ({ media, onPlay, onCl
             <DetailSection title="Top Billed Cast" icon={<UserGroupIcon className="w-8 h-8"/>}>
               <div className="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4 cast-carousel">
                 {cast.map(member => (
-                  <div key={member.id} className="flex-shrink-0 w-36 text-center group">
-                    <div className="w-28 h-28 rounded-full overflow-hidden mx-auto mb-3 bg-slate-800 border-2 border-slate-700/50 group-hover:border-[color:var(--color-primary)]/40 transition-colors">
+                  <div key={member.id} className="flex-shrink-0 w-28 sm:w-36 text-center group">
+                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden mx-auto mb-3 bg-slate-800 border-2 border-slate-700/50 group-hover:border-[color:var(--color-primary)]/40 transition-colors">
                       <img src={member.profile_path ? `${imageBaseUrl}w185${member.profile_path}` : `https://ui-avatars.com/api/?name=${member.name}&background=1e293b&color=94a3b8&font-size=0.33`} alt={member.name} className="w-full h-full object-cover" />
                     </div>
                     <h4 className="font-bold text-slate-200 text-sm truncate">{member.name}</h4>

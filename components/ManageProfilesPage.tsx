@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Profile } from '../types.ts';
@@ -94,7 +95,7 @@ const ManageProfilesPage: React.FC<ManageProfilesPageProps> = ({ profiles, onUpd
             <motion.h1 
                 initial={{ y: -50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                className="text-5xl sm:text-6xl font-bold mb-12 text-slate-100"
+                className="text-4xl sm:text-5xl md:text-6xl font-bold mb-12 text-slate-100 text-center"
             >
                 Manage Profiles
             </motion.h1>

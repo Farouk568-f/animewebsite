@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Media } from '../types.ts';
@@ -48,7 +49,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ movies, isLoading, onCardClick 
 
   if (isLoading || movies.length === 0) {
       return (
-          <section id="hero" className="relative h-[85vh] min-h-[700px] flex items-center justify-center bg-slate-900">
+          <section id="hero" className="relative h-[85vh] min-h-[600px] flex items-center justify-center bg-slate-900">
             <div className="w-16 h-16 border-4 border-[color:var(--color-primary)] border-t-transparent rounded-full animate-spin"></div>
           </section>
       );
@@ -58,7 +59,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ movies, isLoading, onCardClick 
   const activeMovie = movies[movieIndex];
   
   return (
-    <section id="hero" className="relative h-[85vh] min-h-[700px] w-full overflow-hidden">
+    <section id="hero" className="relative h-[85vh] min-h-[600px] md:min-h-[700px] w-full overflow-hidden">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={page}
@@ -87,7 +88,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ movies, isLoading, onCardClick 
             transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 1, 0.5, 1] }}
             className="max-w-3xl"
         >
-          <h1 className="text-5xl md:text-7xl font-black mb-4 leading-tight font-heading [text-shadow:0_4px_15px_rgba(0,0,0,0.5)]">{activeMovie.title}</h1>
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black mb-4 leading-tight font-heading [text-shadow:0_4px_15px_rgba(0,0,0,0.5)]">{activeMovie.title}</h1>
           <div className="flex items-center gap-3 mb-4 flex-wrap">
               {activeMovie.genres.slice(0, 4).map(genre => (
                 <span key={genre.id} className="text-sm font-semibold uppercase tracking-wider bg-white/10 backdrop-blur-sm text-slate-200 px-3 py-1 rounded-full">{genre.name}</span>
@@ -105,9 +106,9 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ movies, isLoading, onCardClick 
           </motion.div>
       </div>
 
-      <div className="absolute z-20 bottom-8 right-8 flex items-center gap-3">
-        <button onClick={() => paginate(-1)} className="w-14 h-14 rounded-full bg-slate-900/40 backdrop-blur-sm border border-white/10 hover:bg-white/20 transition-colors text-white"><ChevronLeftIcon className="w-7 h-7 mx-auto" /></button>
-        <button onClick={() => paginate(1)} className="w-14 h-14 rounded-full bg-slate-900/40 backdrop-blur-sm border border-white/10 hover:bg-white/20 transition-colors text-white"><ChevronRightIcon className="w-7 h-7 mx-auto" /></button>
+      <div className="absolute z-20 bottom-8 right-4 sm:right-8 flex items-center gap-3">
+        <button onClick={() => paginate(-1)} className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/40 backdrop-blur-sm border border-white/10 hover:bg-white/20 transition-colors text-white"><ChevronLeftIcon className="w-6 h-6 sm:w-7 sm:h-7 mx-auto" /></button>
+        <button onClick={() => paginate(1)} className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-900/40 backdrop-blur-sm border border-white/10 hover:bg-white/20 transition-colors text-white"><ChevronRightIcon className="w-6 h-6 sm:w-7 sm:h-7 mx-auto" /></button>
       </div>
     </section>
   );

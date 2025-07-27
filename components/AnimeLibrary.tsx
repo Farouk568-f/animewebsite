@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Media } from '../types.ts';
 import MovieCard from './MovieCard.tsx';
@@ -52,8 +53,8 @@ const AnimeLibrary: React.FC = () => {
     <div className="min-h-screen text-slate-200 pt-28">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center gap-3 mb-8">
-            <MagnifyingGlassIcon className="w-10 h-10 text-[color:var(--color-primary)]" />
-            <h1 className="text-4xl md:text-5xl font-extrabold font-heading bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+            <MagnifyingGlassIcon className="w-8 h-8 sm:w-10 sm:h-10 text-[color:var(--color-primary)]" />
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
                 Explore Library
             </h1>
         </div>
@@ -64,7 +65,7 @@ const AnimeLibrary: React.FC = () => {
               <button
                 key={t.value}
                 onClick={() => setSelectedType(t.value)}
-                className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-200 focus:outline-none ${selectedType === t.value ? 'bg-[color:var(--color-primary)] text-white shadow-md' : 'text-slate-300 hover:bg-slate-700'}`}
+                className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-sm font-semibold rounded-full transition-all duration-200 focus:outline-none ${selectedType === t.value ? 'bg-[color:var(--color-primary)] text-white shadow-md' : 'text-slate-300 hover:bg-slate-700'}`}
               >
                 {t.icon}
                 {t.label}
@@ -72,17 +73,17 @@ const AnimeLibrary: React.FC = () => {
             ))}
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <div className="relative">
               <CalendarDaysIcon className="w-5 h-5 text-slate-400 absolute top-1/2 left-3 -translate-y-1/2 pointer-events-none" />
-              <select value={selectedYear} onChange={e => setSelectedYear(e.target.value)} className="bg-slate-800 text-slate-200 rounded-full pl-10 pr-4 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] cursor-pointer">
+              <select value={selectedYear} onChange={e => setSelectedYear(e.target.value)} className="bg-slate-800 text-slate-200 rounded-full pl-10 pr-4 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] cursor-pointer text-sm sm:text-base">
                 <option value="">All Years</option>
                 {years.map(y => <option key={y} value={y}>{y}</option>)}
               </select>
             </div>
             <div className="relative">
                <BarsArrowDownIcon className="w-5 h-5 text-slate-400 absolute top-1/2 left-3 -translate-y-1/2 pointer-events-none" />
-              <select value={sortOrder} onChange={e => setSortOrder(e.target.value as 'desc' | 'asc')} className="bg-slate-800 text-slate-200 rounded-full pl-10 pr-4 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] cursor-pointer">
+              <select value={sortOrder} onChange={e => setSortOrder(e.target.value as 'desc' | 'asc')} className="bg-slate-800 text-slate-200 rounded-full pl-10 pr-4 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] cursor-pointer text-sm sm:text-base">
                 {sortOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
               </select>
             </div>

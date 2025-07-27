@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useMotionTemplate, AnimatePresence } from 'framer-motion';
 import AOS from 'aos';
@@ -33,14 +34,14 @@ const MOCK_PROFILES: Profile[] = [
 // --- Sub-components for cleaner structure ---
 const ContinueWatchingCarousel: React.FC<{ list: any[], onPlay: (media: Media, episode?: Episode) => void }> = ({ list, onPlay }) => (
     <section data-aos="fade-up" className="container mx-auto max-w-7xl">
-        <h2 className="text-3xl font-bold text-white mb-6 tracking-tight px-4 sm:px-6 lg:px-8 font-heading">
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 tracking-tight px-4 sm:px-6 lg:px-8 font-heading">
             Continue Watching
         </h2>
         <div className="flex gap-4 lg:gap-6 overflow-x-auto pb-4 px-4 sm:px-6 lg:px-8 movie-carousel">
             {list.map(item => (
                 <motion.button
                     key={`${item.id}-${item.mediaType}-${item.season || 'm'}-${item.episode || 'e'}`}
-                    className="group relative flex-shrink-0 w-48 lg:w-56 h-auto aspect-[2/3] rounded-xl overflow-hidden shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-[color:var(--background-color)] focus-visible:ring-[color:var(--color-primary)]"
+                    className="group relative flex-shrink-0 w-40 sm:w-48 lg:w-56 h-auto aspect-[2/3] rounded-xl overflow-hidden shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-[color:var(--background-color)] focus-visible:ring-[color:var(--color-primary)]"
                     onClick={() => {
                         onPlay({
                             id: item.id, media_type: item.mediaType, title: item.title, poster_path: item.poster, imdb_id: item.imdb_id,

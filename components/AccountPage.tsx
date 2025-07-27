@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Profile } from '../types.ts';
@@ -121,9 +122,9 @@ const AccountPage: React.FC<AccountPageProps> = ({ activeProfile, onBack, onClea
                     <ToggleSwitch label="Autoplay Next Episode" enabled={autoplay} setEnabled={setAutoplay} />
                     <ToggleSwitch label="Skip Intros" enabled={skipIntro} setEnabled={setSkipIntro} />
                     
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                       <label className="font-semibold text-slate-200">Preferred Video Quality</label>
-                      <select value={videoQuality} onChange={e => setVideoQuality(e.target.value)} className="bg-slate-800 text-slate-200 rounded-lg px-4 py-2 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] cursor-pointer">
+                      <select value={videoQuality} onChange={e => setVideoQuality(e.target.value)} className="bg-slate-800 text-slate-200 rounded-lg px-4 py-2 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] cursor-pointer w-full sm:w-auto">
                         <option value="auto">Auto</option>
                         <option value="1080p">1080p</option>
                         <option value="720p">720p</option>
@@ -131,9 +132,9 @@ const AccountPage: React.FC<AccountPageProps> = ({ activeProfile, onBack, onClea
                       </select>
                     </div>
 
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                       <label className="font-semibold text-slate-200">Default Playback Speed</label>
-                      <select value={playbackSpeed} onChange={e => setPlaybackSpeed(e.target.value)} className="bg-slate-800 text-slate-200 rounded-lg px-4 py-2 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] cursor-pointer">
+                      <select value={playbackSpeed} onChange={e => setPlaybackSpeed(e.target.value)} className="bg-slate-800 text-slate-200 rounded-lg px-4 py-2 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] cursor-pointer w-full sm:w-auto">
                         <option value="0.75">0.75x</option>
                         <option value="1">1x (Normal)</option>
                         <option value="1.25">1.25x</option>
@@ -199,7 +200,7 @@ const AccountPage: React.FC<AccountPageProps> = ({ activeProfile, onBack, onClea
 
 
     return (
-        <div className="min-h-screen text-white pt-32 pb-16 px-4">
+        <div className="min-h-screen text-white pt-28 md:pt-32 pb-16 px-4">
             <div className="container mx-auto max-w-4xl">
                 <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
                     <button 
@@ -208,7 +209,7 @@ const AccountPage: React.FC<AccountPageProps> = ({ activeProfile, onBack, onClea
                     >
                         <ChevronLeftIcon className="w-5 h-5"/> Back to Home
                     </button>
-                    <h1 className="text-4xl md:text-5xl font-extrabold mb-2 text-slate-100 font-heading">Account Settings</h1>
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-2 text-slate-100 font-heading">Account Settings</h1>
                     <p className="text-slate-400 border-b border-slate-800 pb-8 mb-8">Control your AnimeVerse experience for profile: <span className="font-bold text-slate-200">{activeProfile.name}</span></p>
 
                     {/* Tabs */}
@@ -217,10 +218,10 @@ const AccountPage: React.FC<AccountPageProps> = ({ activeProfile, onBack, onClea
                         <button
                           key={tab.id}
                           onClick={() => setActiveTab(tab.id)}
-                          className={`relative flex items-center gap-2 pb-3 px-2 sm:px-4 text-base sm:text-lg font-bold border-b-2 transition-colors focus:outline-none ${activeTab === tab.id ? 'border-[color:var(--color-primary)] text-[color:var(--color-primary)]' : 'border-transparent text-slate-400 hover:text-white'}`}
+                          className={`relative flex items-center gap-2 pb-3 px-2 sm:px-4 text-sm sm:text-base font-bold border-b-2 transition-colors focus:outline-none ${activeTab === tab.id ? 'border-[color:var(--color-primary)] text-[color:var(--color-primary)]' : 'border-transparent text-slate-400 hover:text-white'}`}
                         >
                           {tab.icon}
-                          {tab.name}
+                          <span className='hidden sm:block'>{tab.name}</span>
                         </button>
                       ))}
                     </div>
