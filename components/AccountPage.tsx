@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Profile } from '../types.ts';
-import { ChevronLeftIcon, UserIcon, PaintBrushIcon, PlayPauseIcon, BellIcon, TrashIcon } from '../constants.tsx';
-import { CheckCircleIcon } from '@heroicons/react/24/solid';
+import { ChevronLeftIcon, UserIcon, PaintBrushIcon, PlayPauseIcon, BellIcon, TrashIcon, CheckCircleIcon } from '../constants.tsx';
 import ToggleSwitch from './ToggleSwitch.tsx';
 
 interface AccountPageProps {
@@ -32,7 +31,7 @@ const useLocalStorageState = <T,>(key: string, defaultValue: T): [T, React.Dispa
       const storedValue = localStorage.getItem(key);
       return storedValue ? JSON.parse(storedValue) : defaultValue;
     } catch (error) {
-      console.error(`Error reading from localStorage key "${key}":`, error);
+      console.error(`Error reading from localStorage key “${key}”:`, error);
       return defaultValue;
     }
   });
@@ -41,7 +40,7 @@ const useLocalStorageState = <T,>(key: string, defaultValue: T): [T, React.Dispa
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
-      console.error(`Error writing to localStorage key "${key}":`, error);
+      console.error(`Error writing to localStorage key “${key}”:`, error);
     }
   }, [key, value]);
 

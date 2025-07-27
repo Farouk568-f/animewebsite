@@ -5,25 +5,28 @@ import { Media, Episode, HomePageData } from '../types.ts';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
-// جلب قائمة التصنيفات من TMDB وتخزينها في الذاكرة
 let GENRE_MAP: Record<number, string> = {};
 const fetchGenres = async () => {
   if (Object.keys(GENRE_MAP).length > 0) return GENRE_MAP;
-  const movieGenres = await fetchFromTMDB<{ genres: { id: number, name: string }[] }>('genre/movie/list');
-  const tvGenres = await fetchFromTMDB<{ genres: { id: number, name: string }[] }>('genre/tv/list');
-  [...movieGenres.genres, ...tvGenres.genres].forEach(g => { GENRE_MAP[g.id] = g.name; });
+  try {
+    const movieGenres = await fetchFromTMDB<{ genres: { id: number, name: string }[] }>('genre/movie/list');
+    const tvGenres = await fetchFromTMDB<{ genres: { id: number, name: string }[] }>('genre/tv/list');
+    [...movieGenres.genres, ...tvGenres.genres].forEach(g => { GENRE_MAP[g.id] = g.name; });
+  } catch (error) {
+    console.error("Failed to fetch genres:", error);
+  }
   return GENRE_MAP;
 };
 
-// دالة مساعدة لتوحيد شكل البيانات بين الأفلام والمسلسلات
 const normalizeMediaData = (item: any): Media => {
   const media_type = item.media_type || (item.first_air_date ? 'tv' : 'movie');
   let genres: { id: number, name: string }[] = [];
-  if (Array.isArray(item.genres) && item.genres.length && typeof item.genres[0] === 'object') {
+  if (Array.isArray(item.genres) && item.genres.length > 0 && typeof item.genres[0] === 'object') {
     genres = item.genres;
   } else if (Array.isArray(item.genre_ids)) {
-    genres = item.genre_ids.map((id: number) => ({ id, name: GENRE_MAP[id] || 'Unknown' }));
+    genres = item.genre_ids.map((id: number) => ({ id, name: GENRE_MAP[id] || 'Unknown' })).filter(g => g.name !== 'Unknown');
   }
+  
   return {
     id: item.id,
     title: item.title || item.name || 'Untitled',
@@ -34,23 +37,27 @@ const normalizeMediaData = (item: any): Media => {
     release_date: item.release_date || item.first_air_date || '',
     genres,
     media_type: media_type,
+    // Pass through detailed fields if they exist
     status: item.status,
     tagline: item.tagline,
     imdb_id: item.external_ids?.imdb_id,
     number_of_seasons: item.number_of_seasons,
     number_of_episodes: item.number_of_episodes,
     seasons: item.seasons,
+    credits: item.credits,
+    videos: item.videos, // Raw videos object
+    recommendations: item.recommendations?.results?.map(normalizeMediaData) || [], // Normalize recommendations
   };
 };
 
-// دالة لجلب البيانات من TMDb مع معالجة الأخطاء
 const fetchFromTMDB = async <T>(endpoint: string): Promise<T> => {
   const separator = endpoint.includes('?') ? '&' : '?';
   const url = `${TMDB_BASE_URL}/${endpoint}${separator}api_key=${API_KEY}&language=en-US`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`TMDb API error! status: ${response.status}`);
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(`TMDb API error! status: ${response.status}, message: ${errorData.status_message || 'Unknown error'}`);
     }
     return await response.json();
   } catch (error) {
@@ -104,7 +111,8 @@ export const searchMedia = async (query: string): Promise<Media[]> => {
 };
 
 export const getMediaDetails = async (id: number, media_type: 'movie' | 'tv'): Promise<Media> => {
-  const detailsEndpoint = `${media_type}/${id}?append_to_response=external_ids,seasons`;
+  await fetchGenres();
+  const detailsEndpoint = `${media_type}/${id}?append_to_response=credits,videos,recommendations,external_ids`;
   const data = await fetchFromTMDB<any>(detailsEndpoint);
   return normalizeMediaData({ ...data, media_type });
 };
@@ -123,7 +131,6 @@ export const getTvSeasonDetails = async (tvId: number, seasonNumber: number): Pr
   }));
 };
 
-// تحويل imdb_id إلى tmdb_id عبر TMDB API
 export async function imdbToTmdb(imdbId: string, apiKey: string): Promise<number | null> {
   const url = `https://api.themoviedb.org/3/find/${imdbId}?api_key=${apiKey}&external_source=imdb_id`;
   try {

@@ -21,7 +21,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ enabled, setEnabled, label,
           </div>
           <button
               onClick={() => setEnabled(!enabled)}
-              className={`relative flex items-center h-7 w-12 rounded-full transition-colors ${
+              className={`relative flex items-center h-7 w-12 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-color)] focus-visible:ring-[color:var(--color-primary)] ${
                   enabled ? 'bg-[color:var(--color-primary)]' : 'bg-slate-700'
               }`}
           >

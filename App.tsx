@@ -17,7 +17,7 @@ import ProfileGate from './components/ProfileGate.tsx';
 import ManageProfilesPage from './components/ManageProfilesPage.tsx';
 import AccountPage from './components/AccountPage.tsx';
 
-import { getHomePageData, getKidsHomePageData, getMediaDetails, searchMedia } from './services/animeService.ts';
+import { getHomePageData, getKidsHomePageData, getMediaDetails } from './services/animeService.ts';
 import { Media, Episode, Profile } from './types.ts';
 import { PlayIcon } from './constants.tsx';
 
@@ -33,14 +33,14 @@ const MOCK_PROFILES: Profile[] = [
 // --- Sub-components for cleaner structure ---
 const ContinueWatchingCarousel: React.FC<{ list: any[], onPlay: (media: Media, episode?: Episode) => void }> = ({ list, onPlay }) => (
     <section data-aos="fade-up" className="container mx-auto max-w-7xl">
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 tracking-tight px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-bold text-white mb-6 tracking-tight px-4 sm:px-6 lg:px-8 font-heading">
             Continue Watching
         </h2>
-        <div className="flex gap-4 lg:gap-6 overflow-x-auto pb-4 px-4 sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex gap-4 lg:gap-6 overflow-x-auto pb-4 px-4 sm:px-6 lg:px-8 movie-carousel">
             {list.map(item => (
-                <button
+                <motion.button
                     key={`${item.id}-${item.mediaType}-${item.season || 'm'}-${item.episode || 'e'}`}
-                    className="group relative flex-shrink-0 w-48 lg:w-56 h-auto aspect-[2/3] rounded-xl overflow-hidden shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+                    className="group relative flex-shrink-0 w-48 lg:w-56 h-auto aspect-[2/3] rounded-xl overflow-hidden shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-[color:var(--background-color)] focus-visible:ring-[color:var(--color-primary)]"
                     onClick={() => {
                         onPlay({
                             id: item.id, media_type: item.mediaType, title: item.title, poster_path: item.poster, imdb_id: item.imdb_id,
@@ -51,8 +51,10 @@ const ContinueWatchingCarousel: React.FC<{ list: any[], onPlay: (media: Media, e
                           } : undefined
                         );
                     }}
+                    whileHover={{ y: -8 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
                 >
-                    <img src={item.poster} alt={item.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105" />
+                    <img src={item.poster} alt={item.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 bg-[color:var(--surface-color)]" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 p-3 lg:p-4 w-full">
                         <h3 className="font-bold text-base text-white truncate">{item.title}</h3>
@@ -63,7 +65,7 @@ const ContinueWatchingCarousel: React.FC<{ list: any[], onPlay: (media: Media, e
                             <PlayIcon className="w-8 h-8 ml-1" />
                         </div>
                     </div>
-                </button>
+                </motion.button>
             ))}
         </div>
     </section>
@@ -97,7 +99,7 @@ const App: React.FC = () => {
     const springConfig = { stiffness: 400, damping: 90 };
     const smoothMouseX = useSpring(mouseX, springConfig);
     const smoothMouseY = useSpring(mouseY, springConfig);
-    const gradient = useMotionTemplate`radial-gradient(450px circle at ${smoothMouseX}px ${smoothMouseY}px, rgba(22, 163, 165, 0.15), transparent 80%)`;
+    const gradient = useMotionTemplate`radial-gradient(450px circle at ${smoothMouseX}px ${smoothMouseY}px, rgba(var(--color-primary-rgb), 0.1), transparent 80%)`;
 
     // --- Effects ---
     useEffect(() => {
@@ -107,6 +109,12 @@ const App: React.FC = () => {
     }, [mouseX, mouseY]);
 
     useEffect(() => {
+        // Apply theme on navigation
+        const savedThemeJSON = localStorage.getItem('theme');
+        const savedTheme = savedThemeJSON ? JSON.parse(savedThemeJSON) : 'blue';
+        document.body.dataset.theme = savedTheme;
+
+
         const handleHashChange = () => {
             const hash = window.location.hash;
             const detailsMatch = hash.match(/^#\/(movie|tv)\/(\d+)/);
@@ -118,15 +126,21 @@ const App: React.FC = () => {
                 return;
             }
 
-            if (detailsMatch) setCurrentView({ page: 'details', mediaType: detailsMatch[1] as 'movie' | 'tv', mediaId: parseInt(detailsMatch[2], 10) });
+            if (detailsMatch) {
+              const mediaType = detailsMatch[1] as 'movie' | 'tv';
+              const mediaId = parseInt(detailsMatch[2], 10);
+              setCurrentView({ page: 'details', mediaType, mediaId });
+              // Fetch new details when hash changes
+              getMediaDetails(mediaId, mediaType).then(setDetailedMedia).catch(() => setDetailedMedia(null));
+            }
             else if (searchMatch) setCurrentView({ page: 'search', query: decodeURIComponent(searchMatch[1]) });
             else if (libraryMatch) setCurrentView({ page: 'library' });
             else setCurrentView({ page: 'home' });
         };
         window.addEventListener('hashchange', handleHashChange);
-        handleHashChange();
+        handleHashChange(); // Initial call
         return () => window.removeEventListener('hashchange', handleHashChange);
-    }, [currentView.page]);
+    }, [currentView.page]); // Rerun if we navigate away from a special page
 
     useEffect(() => {
         AOS.init({ duration: 800, once: true, offset: 50 });
@@ -150,12 +164,13 @@ const App: React.FC = () => {
                 setIsPageLoading(false);
             }
         };
-        if (currentView.page === 'home' && trending.length === 0 && activeProfile) {
+        if (activeProfile) {
+          if (currentView.page === 'home' && trending.length === 0) {
             fetchAllMedia();
+          }
         }
     }, [currentView.page, trending.length, activeProfile]);
 
-    // عند تغيير الحساب النشط، حمّل قائمة المشاهدة الخاصة به
     useEffect(() => {
       if (activeProfile) {
         const data = localStorage.getItem(`continueWatchingList_${activeProfile.id}`);
@@ -163,14 +178,12 @@ const App: React.FC = () => {
       }
     }, [activeProfile]);
 
-    // عند تحديث قائمة المشاهدة، احفظها في localStorage الخاص بالحساب النشط
     useEffect(() => {
       if (activeProfile) {
         localStorage.setItem(`continueWatchingList_${activeProfile.id}`, JSON.stringify(continueWatchingList));
       }
     }, [continueWatchingList, activeProfile]);
 
-    // احفظ الحسابات في localStorage عند أي تغيير
     useEffect(() => {
       localStorage.setItem('profiles', JSON.stringify(profiles));
     }, [profiles]);
@@ -184,7 +197,6 @@ const App: React.FC = () => {
         window.location.hash = `#/search/${encodeURIComponent(query)}`;
     }, [currentView.page]);
 
-    // مرر setContinueWatchingList إلى VideoPlayer ليتم تحديث القائمة عند المشاهدة
     const openVideoPlayer = useCallback((media: Media, episode?: Episode) => setVideoPlayer({ media, episode }), []);
     const closeVideoPlayer = useCallback(() => setVideoPlayer(null), []);
     const handleCardClick = useCallback((media: Media) => window.location.hash = `#/${media.media_type}/${media.id}`, []);
@@ -193,7 +205,6 @@ const App: React.FC = () => {
     const handleProfileSelect = (profile: Profile) => {
       setActiveProfile(profile);
       setCurrentView({ page: 'home' });
-      // Force a refetch for the new profile by clearing current data
       setTrending([]);
       setPopularMovies([]);
       setTopRatedTv([]);
@@ -221,7 +232,7 @@ const App: React.FC = () => {
       }
       setProfiles(prev => prev.filter(p => p.id !== profileId));
       if (activeProfile?.id === profileId) {
-        setActiveProfile(null); // Go back to profile gate if active is deleted
+        setActiveProfile(null); 
       }
     };
 
@@ -244,7 +255,6 @@ const App: React.FC = () => {
     
     const renderContent = () => {
         if (activeProfile?.kids && (currentView.page === 'home' || currentView.page === 'library')) {
-          // نسخة الأطفال: سلايدر وأقسام مخصصة للأطفال فقط
           return (
             <>
               <HeroSlider movies={trending.filter(m => m.genres?.some(g => g.name.toLowerCase().includes('kids') || g.name.toLowerCase().includes('family')))} isLoading={isPageLoading} onCardClick={handleCardClick} />
@@ -264,14 +274,13 @@ const App: React.FC = () => {
             </>
           );
         }
-        // الواجهة العادية
         switch (currentView.page) {
             case 'manageProfiles':
               return <ManageProfilesPage profiles={profiles} onUpdateProfile={handleUpdateProfile} onDeleteProfile={handleDeleteProfile} onDone={handleReturnHome} />;
             case 'account':
-              return <AccountPage activeProfile={activeProfile} onBack={handleReturnHome} />;
+              return <AccountPage activeProfile={activeProfile} onBack={handleReturnHome} onClearWatchHistory={handleClearWatchHistory} />;
             case 'details':
-              return <AnimeDetailsPage mediaId={currentView.mediaId!} mediaType={currentView.mediaType!} onPlay={openVideoPlayer} onCloseVideoPlayer={closeVideoPlayer} />;
+              return <AnimeDetailsPage media={detailedMedia} onPlay={openVideoPlayer} onCloseVideoPlayer={closeVideoPlayer} />;
             case 'library':
                 return <AnimeLibrary />;
             case 'search':
@@ -301,7 +310,7 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="bg-slate-950 text-slate-300 font-sans antialiased overflow-x-hidden">
+        <div className="font-sans antialiased">
             <motion.div className="pointer-events-none fixed inset-0 z-30" style={{ background: gradient }} />
             <Header
                 onSearch={handleSearch}
