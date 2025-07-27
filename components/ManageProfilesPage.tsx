@@ -51,11 +51,7 @@ const ManageProfilesPage: React.FC<ManageProfilesPageProps> = ({ profiles, onUpd
 
     if (editingProfile) {
         return (
-<<<<<<< HEAD
              <div className="min-h-screen flex flex-col items-center justify-center text-white p-4">
-=======
-             <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white p-4">
->>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
                 <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -94,11 +90,7 @@ const ManageProfilesPage: React.FC<ManageProfilesPageProps> = ({ profiles, onUpd
     }
 
     return (
-<<<<<<< HEAD
         <div className="min-h-screen flex flex-col items-center justify-center text-white pt-32 pb-16 px-4">
-=======
-        <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white pt-32 pb-16 px-4">
->>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
             <motion.h1 
                 initial={{ y: -50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}

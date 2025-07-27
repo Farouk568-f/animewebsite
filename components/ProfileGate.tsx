@@ -20,18 +20,11 @@ const containerVariants: Variants = {
 };
 
 const itemVariants: Variants = {
-<<<<<<< HEAD
     hidden: { y: 20, opacity: 0, scale: 0.9 },
     visible: {
         y: 0,
         opacity: 1,
         scale: 1,
-=======
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-        y: 0,
-        opacity: 1,
->>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
         transition: {
             type: 'spring',
             stiffness: 100
@@ -50,11 +43,7 @@ const ProfileGate: React.FC<ProfileGateProps> = ({ profiles, onProfileSelect, on
         let avatarUrl = newAvatar.trim();
         if (!avatarUrl) {
             const randomSeed = Math.random().toString(36).substring(2, 10);
-<<<<<<< HEAD
             avatarUrl = `https://api.dicebear.com/8.x/adventurer/svg?seed=${encodeURIComponent(newName + randomSeed)}`;
-=======
-            avatarUrl = `https://api.dicebear.com/8.x/pixel-art/svg?seed=${encodeURIComponent(newName + randomSeed)}`;
->>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
         }
         onAddProfile({
             id: Date.now().toString(),
@@ -69,20 +58,12 @@ const ProfileGate: React.FC<ProfileGateProps> = ({ profiles, onProfileSelect, on
     };
 
     return (
-<<<<<<< HEAD
         <div className="min-h-screen flex flex-col items-center justify-center text-white p-4">
-=======
-        <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white p-4">
->>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
             <motion.h1 
                 initial={{ y: -50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-<<<<<<< HEAD
                 className="text-5xl sm:text-6xl font-black font-heading mb-12 text-slate-100"
-=======
-                className="text-5xl sm:text-6xl font-bold mb-12 text-slate-100"
->>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
             >
                 Who's Watching?
             </motion.h1>
@@ -94,22 +75,16 @@ const ProfileGate: React.FC<ProfileGateProps> = ({ profiles, onProfileSelect, on
                 animate="visible"
             >
                 {profiles.map(profile => (
-<<<<<<< HEAD
                     <motion.div key={profile.id} variants={itemVariants} className="text-center group">
                         <motion.button
                             whileHover={{ y: -10, scale: 1.05 }}
                             transition={{ type: 'spring', stiffness: 300 }}
-=======
-                    <motion.div key={profile.id} variants={itemVariants} className="text-center cursor-pointer group">
-                        <button
->>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
                             onClick={() => onProfileSelect(profile)}
                             className="w-32 h-32 sm:w-40 sm:h-40 rounded-lg overflow-hidden border-4 border-transparent group-hover:border-[color:var(--color-primary)] focus:border-[color:var(--color-primary)] focus:outline-none transition-all duration-300 block"
                         >
                             <img 
                                 src={profile.avatarUrl} 
                                 alt={profile.name} 
-<<<<<<< HEAD
                                 className="w-full h-full object-cover transition-transform duration-300"
                             />
                         </motion.button>
@@ -120,37 +95,19 @@ const ProfileGate: React.FC<ProfileGateProps> = ({ profiles, onProfileSelect, on
                     <motion.button 
                         whileHover={{ y: -10, scale: 1.05 }}
                         transition={{ type: 'spring', stiffness: 300 }}
-=======
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                            />
-                        </button>
-                        <p className="mt-3 text-lg sm:text-xl font-medium text-slate-400 group-hover:text-white transition-colors">{profile.name}</p>
-                    </motion.div>
-                ))}
-                <motion.div variants={itemVariants} className="text-center cursor-pointer group">
-                    <button 
->>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
                         onClick={() => setShowAdd(true)}
                         className="w-32 h-32 sm:w-40 sm:h-40 rounded-lg flex items-center justify-center bg-slate-800/50 group-hover:bg-slate-700/70 border-4 border-transparent group-hover:border-slate-500 focus:border-slate-500 focus:outline-none transition-all duration-300"
                         aria-label="Add Profile"
                     >
                         <PlusIcon className="w-16 h-16 text-slate-500 group-hover:text-slate-400 transition-colors" />
-<<<<<<< HEAD
                     </motion.button>
-=======
-                    </button>
->>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
                     <p className="mt-3 text-lg sm:text-xl font-medium text-slate-400 group-hover:text-white transition-colors">Add Profile</p>
                 </motion.div>
             </motion.div>
 
             {showAdd && (
                 <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
-<<<<<<< HEAD
                     <div className="bg-[color:var(--surface-color)] rounded-2xl shadow-2xl p-8 w-full max-w-xs flex flex-col items-center gap-6 border border-[color:var(--color-primary-dark)]">
-=======
-                    <div className="bg-slate-900 rounded-2xl shadow-2xl p-8 w-full max-w-xs flex flex-col items-center gap-6 border border-[color:var(--color-primary-dark)]">
->>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
                         <h2 className="text-2xl font-bold text-[color:var(--color-primary)] mb-2">Add Profile</h2>
                         <input
                             type="text"
