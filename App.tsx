@@ -27,6 +27,99 @@ import { getHomePageData, getKidsHomePageData, getMediaDetails, getDiscoverPageD
 import { Media, Episode, Profile, DiscoverPageData } from './types.ts';
 import { PlayIcon } from './constants.tsx';
 
+// دالة للتنقل بالكيبورد للتفاز
+const useTVNavigation = () => {
+  useEffect(() => {
+    const handleKeyNavigation = (event: KeyboardEvent) => {
+      const focusableElements = document.querySelectorAll(
+        'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+      ) as NodeListOf<HTMLElement>;
+      
+      const currentIndex = Array.from(focusableElements).indexOf(document.activeElement as HTMLElement);
+      
+      switch (event.key) {
+        case 'ArrowRight':
+        case 'ArrowDown':
+          event.preventDefault();
+          const nextIndex = (currentIndex + 1) % focusableElements.length;
+          focusableElements[nextIndex]?.focus();
+          break;
+          
+        case 'ArrowLeft':
+        case 'ArrowUp':
+          event.preventDefault();
+          const prevIndex = currentIndex <= 0 ? focusableElements.length - 1 : currentIndex - 1;
+          focusableElements[prevIndex]?.focus();
+          break;
+          
+        case 'Enter':
+        case ' ':
+          event.preventDefault();
+          if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.click();
+          }
+          break;
+          
+        case 'Escape':
+          event.preventDefault();
+          // العودة للصفحة الرئيسية
+          if (window.location.hash !== '') {
+            window.location.hash = '';
+          }
+          break;
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyNavigation);
+    
+    return () => {
+      document.removeEventListener('keydown', handleKeyNavigation);
+    };
+  }, []);
+
+  // إضافة مؤشر التركيز المرئي للتفاز
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      .tv-focus {
+        outline: 3px solid #ff6b35 !important;
+        outline-offset: 2px !important;
+        transform: scale(1.02) !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 0 20px rgba(255, 107, 53, 0.5) !important;
+      }
+      
+      .tv-focus:hover {
+        transform: scale(1.05) !important;
+      }
+      
+      /* تحسين التركيز للعناصر */
+      a:focus, button:focus, input:focus, textarea:focus, select:focus {
+        outline: 3px solid #ff6b35 !important;
+        outline-offset: 2px !important;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
+  // إضافة tabindex للعناصر القابلة للتركيز
+  useEffect(() => {
+    const focusableElements = document.querySelectorAll(
+      'a, button, input, textarea, select'
+    ) as NodeListOf<HTMLElement>;
+    
+    focusableElements.forEach((element) => {
+      if (!element.hasAttribute('tabindex')) {
+        element.setAttribute('tabindex', '0');
+      }
+    });
+  }, []);
+};
+
 
 // --- Mock Data ---
 const MOCK_PROFILES: Profile[] = [
@@ -101,6 +194,9 @@ const App: React.FC = () => {
       return saved ? JSON.parse(saved) : MOCK_PROFILES;
     });
     const [activeProfile, setActiveProfile] = useState<Profile | null>(null);
+
+    // تفعيل التنقل بالكيبورد للتفاز
+    useTVNavigation();
 
     // --- Effects ---
     useEffect(() => {
