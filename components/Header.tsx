@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FilmIcon, Bars3Icon, XMarkIcon } from '../constants.tsx';
@@ -156,9 +157,8 @@ const Header: React.FC<HeaderProps> = ({ onSearch, showSearch = true, activeProf
               {showSearch && (
                 <nav className="hidden lg:flex items-center space-x-2 font-semibold text-slate-300">
                   {navLinks.map((link) => (
-                    <a key={link.name} href={link.href} className="relative whitespace-nowrap transition-colors duration-200 text-base px-3 py-2 rounded-md hover:text-white group">
+                    <a key={link.name} href={link.href} className="nav-link">
                       {link.name}
-                      <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[color:var(--color-primary)] rounded-full transition-all duration-300 group-hover:w-1/2"></span>
                     </a>
                   ))}
                 </nav>

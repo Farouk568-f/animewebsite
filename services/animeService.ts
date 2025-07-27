@@ -24,7 +24,7 @@ const normalizeMediaData = (item: any): Media => {
   if (Array.isArray(item.genres) && item.genres.length > 0 && typeof item.genres[0] === 'object') {
     genres = item.genres;
   } else if (Array.isArray(item.genre_ids)) {
-    genres = item.genre_ids.map((id: number) => ({ id, name: GENRE_MAP[id] || 'Unknown' })).filter(g => g.name !== 'Unknown');
+    genres = item.genre_ids.map((id: number) => ({ id, name: GENRE_MAP[id] || 'Unknown' })).filter((g: { id: number, name: string }) => g.name !== 'Unknown');
   }
   
   return {
@@ -84,18 +84,28 @@ export const getHomePageData = async (): Promise<HomePageData> => {
 };
 
 export const getDiscoverPageData = async (): Promise<DiscoverPageData> => {
-  await fetchGenres();
-  const [top10WeekRes, allTimeGrossingRes, popularAnimeRes] = await Promise.all([
-    fetchFromTMDB<{ results: any[] }>('trending/tv/week'),
-    fetchFromTMDB<{ results: any[] }>('discover/movie?sort_by=revenue.desc'),
-    fetchFromTMDB<{ results: any[] }>('discover/tv?with_genres=16&sort_by=popularity.desc&with_original_language=ja'),
-  ]);
+  try {
+    await fetchGenres();
+    const [top10WeekRes, allTimeGrossingRes, popularAnimeRes] = await Promise.all([
+      fetchFromTMDB<{ results: any[] }>('trending/tv/week'),
+      fetchFromTMDB<{ results: any[] }>('discover/movie?sort_by=revenue.desc'),
+      fetchFromTMDB<{ results: any[] }>('discover/tv?with_genres=16&sort_by=popularity.desc&with_original_language=ja'),
+    ]);
 
-  return {
-    top10Week: top10WeekRes.results.slice(0, 10).map(normalizeMediaData),
-    allTimeGrossing: allTimeGrossingRes.results.map(normalizeMediaData),
-    popularAnime: popularAnimeRes.results.map(normalizeMediaData),
-  };
+    return {
+      top10Week: (top10WeekRes.results || []).slice(0, 10).map(normalizeMediaData),
+      allTimeGrossing: (allTimeGrossingRes.results || []).map(normalizeMediaData),
+      popularAnime: (popularAnimeRes.results || []).map(normalizeMediaData),
+    };
+  } catch (error) {
+    console.error('Error fetching discover page data:', error);
+    // Return empty arrays if there's an error
+    return {
+      top10Week: [],
+      allTimeGrossing: [],
+      popularAnime: [],
+    };
+  }
 };
 
 export const getKidsHomePageData = async (): Promise<HomePageData> => {

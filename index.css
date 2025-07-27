@@ -1,4 +1,5 @@
 
+
 :root {
   --default-font: "Poppins", sans-serif;
   --heading-font: "Inter", sans-serif;
@@ -103,6 +104,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.5s ease;
   overflow-x: hidden;
+  position: relative;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(var(--color-primary-rgb), 0.08), transparent 40vw);
+  z-index: -1;
+  transition: background 0.3s ease-out;
 }
 
 .section {
@@ -147,9 +164,9 @@ body {
   content: "";
   position: absolute;
   display: block;
-  width: 60px;
+  width: 80px;
   height: 4px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-gradient-end));
+  background: linear-gradient(90deg, var(--color-primary-dark), var(--color-primary-light));
   left: 0;
   right: 0;
   bottom: 0;
@@ -163,6 +180,54 @@ body {
   font-size: 26px;
   letter-spacing: -0.5px;
   color: var(--heading-color);
+}
+
+/* Carousel Title Styles */
+.carousel-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 640px) { .carousel-title-container { padding-left: 1.5rem; padding-right: 1.5rem; } }
+@media (min-width: 1024px) { .carousel-title-container { padding-left: 2rem; padding-right: 2rem; } }
+
+.carousel-title {
+  font-family: var(--heading-font);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--heading-color);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+@media (min-width: 640px) { .carousel-title { font-size: 1.875rem; } }
+
+.carousel-title::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 1.75rem;
+    background-color: var(--color-primary);
+    border-radius: 4px;
+    transform: skewX(-10deg);
+}
+
+/* Header Nav Link */
+.nav-link {
+    position: relative;
+    white-space: nowrap;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 500;
+}
+.nav-link:hover {
+    color: white;
+    background-color: rgba(255,255,255, 0.1);
 }
 
 /* Interactive Card Glow Effect */
@@ -192,15 +257,15 @@ body {
 
 /* Modern Scrollbar Styles */
 body::-webkit-scrollbar {
-    width: 12px;
+    width: 10px;
 }
 body::-webkit-scrollbar-track {
-    background: var(--surface-color);
+    background: var(--background-color);
 }
 body::-webkit-scrollbar-thumb {
-    background-color: rgb(var(--default-color-rgb) / 0.3);
+    background-color: rgb(var(--surface-color-rgb));
     border-radius: 20px;
-    border: 3px solid var(--surface-color);
+    border: 2px solid var(--background-color);
 }
 body::-webkit-scrollbar-thumb:hover {
   background-color: rgb(var(--default-color-rgb) / 0.5);

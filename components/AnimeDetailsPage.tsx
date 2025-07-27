@@ -215,7 +215,7 @@ const AnimeDetailsPage: React.FC<AnimeDetailsPageProps> = ({ media, onPlay, onCl
               <AnimatePresence mode="wait">
                 <motion.ul key={activeSeason} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -30 }} transition={{ duration: 0.3 }} className="space-y-4">
                   {(episodesBySeason[activeSeason] || []).map(ep => (
-                    <li key={ep.id} onClick={() => handlePlayClick(ep)} className="group bg-[color:var(--surface-color)]/70 border border-slate-800 rounded-2xl p-3 cursor-pointer transition-all duration-300 hover:border-[color:var(--color-primary)]/50 hover:bg-[rgba(var(--surface-color-rgb),0.8)] hover:scale-[1.02] transform">
+                    <li key={ep.id} onClick={() => handlePlayClick(ep)} className="group bg-[color:var(--surface-color)]/70 border border-slate-800 rounded-2xl p-3 cursor-pointer transition-all duration-300 hover:border-[color:var(--color-primary)]/50 hover:bg-gradient-to-r from-[color:var(--surface-color)] to-[rgba(var(--color-primary-rgb),0.05)] transform hover:translate-x-1">
                       <div className="flex items-start sm:items-center gap-4 md:gap-5 flex-col sm:flex-row">
                         <div className="relative w-full sm:w-32 md:w-48 aspect-video rounded-lg overflow-hidden flex-shrink-0 bg-slate-800">
                           <img src={ep.still_path ? `${imageBaseUrl}w500${ep.still_path}` : fullBackdropPath || fullPosterPath} alt={ep.name} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />

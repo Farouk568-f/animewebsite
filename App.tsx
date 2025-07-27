@@ -1,6 +1,7 @@
 
+
 import React, { useState, useCallback, useEffect } from 'react';
-import { motion, useMotionValue, useSpring, useMotionTemplate, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -98,20 +99,15 @@ const App: React.FC = () => {
     });
     const [activeProfile, setActiveProfile] = useState<Profile | null>(null);
 
-    // --- Animation Hooks ---
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-    const springConfig = { stiffness: 400, damping: 90 };
-    const smoothMouseX = useSpring(mouseX, springConfig);
-    const smoothMouseY = useSpring(mouseY, springConfig);
-    const gradient = useMotionTemplate`radial-gradient(450px circle at ${smoothMouseX}px ${smoothMouseY}px, rgba(var(--color-primary-rgb), 0.1), transparent 80%)`;
-
     // --- Effects ---
     useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => { mouseX.set(e.clientX); mouseY.set(e.clientY); };
+        const handleMouseMove = (e: MouseEvent) => {
+            document.body.style.setProperty('--mouse-x', `${e.clientX}px`);
+            document.body.style.setProperty('--mouse-y', `${e.clientY}px`);
+        };
         window.addEventListener('mousemove', handleMouseMove);
         return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, [mouseX, mouseY]);
+    }, []);
 
     useEffect(() => {
         // Apply theme on load and navigation
@@ -173,6 +169,7 @@ const App: React.FC = () => {
         const fetchDiscoverData = async () => {
             try {
               setIsDiscoverLoading(true);
+              setError(null);
               const data = await getDiscoverPageData();
               setDiscoverPageData(data);
             } catch (err) {
@@ -185,11 +182,11 @@ const App: React.FC = () => {
         if (activeProfile) {
           if (currentView.page === 'home' && trending.length === 0) {
             fetchAllMedia();
-          } else if (currentView.page === 'discover' && !discoverPageData) {
+          } else if (currentView.page === 'discover') {
             fetchDiscoverData();
           }
         }
-    }, [currentView.page, activeProfile, trending.length, discoverPageData]);
+    }, [currentView.page, activeProfile, trending.length]);
 
     useEffect(() => {
       if (activeProfile) {
@@ -279,7 +276,7 @@ const App: React.FC = () => {
           return (
             <>
               <HeroSlider movies={trending.filter(m => m.genres?.some(g => g.name.toLowerCase().includes('kids') || g.name.toLowerCase().includes('family')))} isLoading={isPageLoading} onCardClick={handleCardClick} />
-              <div className="py-12 md:py-20 space-y-12 md:space-y-20">
+              <div className="py-12 md:py-20 flex flex-col gap-y-12 md:gap-y-20">
                 {continueWatchingList.length > 0 && <ContinueWatchingCarousel list={continueWatchingList} onPlay={openVideoPlayer} />}
                 {error && <p className="text-center text-red-500 bg-red-900/20 py-3 px-4 rounded-lg container mx-auto max-w-4xl">{error}</p>}
                 {isPageLoading ? (
@@ -313,7 +310,7 @@ const App: React.FC = () => {
                 return (
                     <>
                         <HeroSlider movies={trending} isLoading={isPageLoading} onCardClick={handleCardClick} />
-                        <div className="py-12 md:py-20 space-y-12 md:space-y-20">
+                        <div className="py-12 md:py-20 flex flex-col gap-y-12 md:gap-y-20">
                             {continueWatchingList.length > 0 && <ContinueWatchingCarousel list={continueWatchingList} onPlay={openVideoPlayer} />}
                             {error && <p className="text-center text-red-500 bg-red-900/20 py-3 px-4 rounded-lg container mx-auto max-w-4xl">{error}</p>}
                             {isPageLoading ? (
@@ -335,7 +332,6 @@ const App: React.FC = () => {
 
     return (
         <div className="font-sans antialiased">
-            <motion.div className="pointer-events-none fixed inset-0 z-30" style={{ background: gradient }} />
             <Header
                 onSearch={handleSearch}
                 showSearch={!['manageProfiles', 'account'].includes(currentView.page)}
