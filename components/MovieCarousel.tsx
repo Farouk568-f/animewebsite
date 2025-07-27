@@ -15,11 +15,13 @@ interface MovieCarouselProps {
 const MovieCarousel: React.FC<MovieCarouselProps> = ({ id, title, movies, onCardClick }) => {
   if (!movies || movies.length === 0) return null;
 
+  console.log(`MovieCarousel ${id}:`, { title, moviesCount: movies.length });
+
   return (
     <section id={id} className="section !py-0" data-aos="fade-up">
       <div className="container mx-auto max-w-7xl">
         <div className="carousel-title-container">
-          <h2 className="carousel-title">{title}</h2>
+          <h2 className="carousel-title text-white font-bold text-2xl">{title}</h2>
           {id !== 'recommendations' && (
             <a href="#/library" className="text-sm font-semibold text-slate-400 hover:text-[color:var(--color-primary)] transition-colors flex items-center gap-1 group whitespace-nowrap">
               View All
