@@ -1,13 +1,8 @@
 // src/components/MovieCarousel.tsx
 
 import React from 'react';
-<<<<<<< HEAD
-import { Media } from '../types.ts';
-import MovieCard from './MovieCard.tsx';
-=======
 import { Media } from '../types';
 import MovieCard from './MovieCard';
->>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
 
 interface MovieCarouselProps {
   id: string;
@@ -33,8 +28,4 @@ const MovieCarousel: React.FC<MovieCarouselProps> = ({ id, title, movies, onCard
   );
 };
 
-<<<<<<< HEAD
 export default MovieCarousel;
-=======
-export default MovieCarousel;
->>>>>>> 3ed2802c93c3d3a58134bc3b4abb9b3e4eff399a
