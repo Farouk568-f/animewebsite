@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FilmIcon, Bars3Icon, XMarkIcon } from '../constants.tsx';
@@ -26,6 +27,7 @@ const SearchIcon: React.FC<{className?: string}> = ({className}) => (
 const navLinks = [
     { name: "Discover", href: "#/discover" },
     { name: "Library", href: "#/library" },
+    { name: "My List", href: "#/mylist" },
     { name: "Popular", href: "#popular" },
     { name: "Top Rated", href: "#top-rated" },
     { name: "Upcoming", href: "#upcoming" },
@@ -46,6 +48,11 @@ const MobileMenu: React.FC<{onSearch: (q:string)=>void, onLinkClick:()=>void}> =
         e.preventDefault();
         if(searchTimeout.current) clearTimeout(searchTimeout.current);
         onSearch(searchQuery);
+    };
+
+    const handleNavLinkClick = (href: string) => {
+        window.location.hash = href;
+        onLinkClick();
     };
     
     return (
@@ -75,9 +82,13 @@ const MobileMenu: React.FC<{onSearch: (q:string)=>void, onLinkClick:()=>void}> =
                 </form>
                 <nav className="flex flex-col gap-6">
                      {navLinks.map((link) => (
-                        <a key={link.name} href={link.href} onClick={onLinkClick} className="text-2xl font-bold text-slate-300 hover:text-white transition-colors">
+                        <button 
+                            key={link.name} 
+                            onClick={() => handleNavLinkClick(link.href)} 
+                            className="text-2xl font-bold text-slate-300 hover:text-white transition-colors"
+                        >
                           {link.name}
-                        </a>
+                        </button>
                       ))}
                 </nav>
             </div>
@@ -100,28 +111,20 @@ const Header: React.FC<HeaderProps> = ({ onSearch, showSearch = true, activeProf
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    if (!showSearch && searchQuery) {
-        setSearchQuery('');
-    }
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-        if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
-            setIsProfileMenuOpen(false);
-        }
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+        setIsProfileMenuOpen(false);
+      }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
-    return () => {
-        window.removeEventListener('scroll', handleScroll);
-        document.removeEventListener('mousedown', handleClickOutside);
-        if(searchTimeout.current) clearTimeout(searchTimeout.current);
-    }
-  }, [showSearch, searchQuery]);
-  
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const query = e.target.value;
       setSearchQuery(query);
@@ -143,6 +146,10 @@ const Header: React.FC<HeaderProps> = ({ onSearch, showSearch = true, activeProf
     window.location.hash = '#';
   };
 
+  const handleNavLinkClick = (href: string) => {
+    window.location.hash = href;
+  };
+
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
@@ -150,16 +157,20 @@ const Header: React.FC<HeaderProps> = ({ onSearch, showSearch = true, activeProf
       <div className={`container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`}>
         <div className={`flex items-center justify-between rounded-full pl-4 pr-2 sm:pl-6 sm:pr-4 transition-all duration-300 ${isScrolled ? 'bg-slate-900/80 backdrop-blur-lg shadow-2xl shadow-black/30 h-16' : 'h-20 bg-transparent'}`}>
             <div className="flex items-center gap-8">
-              <a href="#" onClick={handleLogoClick} className="flex items-center space-x-3">
+              <button onClick={handleLogoClick} className="flex items-center space-x-3">
                 <FilmIcon className="w-8 h-8 text-[color:var(--color-primary)]" />
                 <span className="sitename text-xl sm:text-3xl text-white whitespace-nowrap [text-shadow:1px_1px_2px_rgb(0_0_0_/_50%)]">AnimeVerse</span>
-              </a>
+              </button>
               {showSearch && (
                 <nav className="hidden lg:flex items-center space-x-2 font-semibold text-slate-300">
                   {navLinks.map((link) => (
-                    <a key={link.name} href={link.href} className="nav-link">
+                    <button 
+                        key={link.name} 
+                        onClick={() => handleNavLinkClick(link.href)} 
+                        className="nav-link"
+                    >
                       {link.name}
-                    </a>
+                    </button>
                   ))}
                 </nav>
               )}

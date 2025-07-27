@@ -1,4 +1,6 @@
 
+
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getTvSeasonDetails } from '../services/animeService.ts';
@@ -6,7 +8,7 @@ import { Media, Episode, CastMember, Video } from '../types.ts';
 import AnimeDetailsPageSkeleton from './AnimeDetailsPageSkeleton.tsx';
 import MovieCarousel from './MovieCarousel.tsx';
 import Button from './Button.tsx';
-import { StarIcon, CalendarDaysIcon, PlayCircleIcon, ChevronLeftIcon, XMarkIcon, FilmIcon, UserGroupIcon, VideoCameraIcon } from '@heroicons/react/24/solid';
+import { StarIcon, CalendarDaysIcon, PlayCircleIcon, ChevronLeftIcon, XMarkIcon, FilmIcon, UserGroupIcon, VideoCameraIcon, PlusIcon, CheckIcon } from '../constants.tsx';
 
 const imageBaseUrl = 'https://image.tmdb.org/t/p/';
 
@@ -24,6 +26,8 @@ interface AnimeDetailsPageProps {
   media: Media | null;
   onPlay: (media: Media, episode?: Episode) => void;
   onCloseVideoPlayer?: () => void;
+  myList: Media[];
+  onToggleMyList: (media: Media) => void;
 }
 
 const DetailSection: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => (
@@ -36,7 +40,7 @@ const DetailSection: React.FC<{ title: string; icon: React.ReactNode; children: 
     </motion.div>
 );
 
-const AnimeDetailsPage: React.FC<AnimeDetailsPageProps> = ({ media, onPlay, onCloseVideoPlayer }) => {
+const AnimeDetailsPage: React.FC<AnimeDetailsPageProps> = ({ media, onPlay, onCloseVideoPlayer, myList, onToggleMyList }) => {
   const [episodesBySeason, setEpisodesBySeason] = useState<Record<number, Episode[]>>({});
   const [activeSeason, setActiveSeason] = useState<number>(1);
   const [selectedTrailer, setSelectedTrailer] = useState<Video | null>(null);
@@ -76,6 +80,12 @@ const AnimeDetailsPage: React.FC<AnimeDetailsPageProps> = ({ media, onPlay, onCl
   const handleRecommendationClick = (rec: Media) => {
     window.location.hash = `#/${rec.media_type}/${rec.id}`;
   };
+  
+  const handleMyListClick = () => {
+    if (media) {
+      onToggleMyList(media);
+    }
+  };
 
   const handleGoBack = () => {
     if (typeof onCloseVideoPlayer === 'function') {
@@ -88,6 +98,7 @@ const AnimeDetailsPage: React.FC<AnimeDetailsPageProps> = ({ media, onPlay, onCl
 
   if (!media) return <AnimeDetailsPageSkeleton />;
 
+  const isInMyList = myList.some(item => item.id === media.id);
   const fullBackdropPath = media.backdrop_path ? `${imageBaseUrl}original${media.backdrop_path}` : '';
   const fullPosterPath = media.poster_path ? `${imageBaseUrl}w780${media.poster_path}` : '';
   const validSeasons = media.seasons?.filter(s => s.season_number > 0 && s.episode_count > 0) || [];
@@ -146,14 +157,29 @@ const AnimeDetailsPage: React.FC<AnimeDetailsPageProps> = ({ media, onPlay, onCl
                 {media.overview}
               </motion.p>
               
-              {media.media_type === 'movie' && (
-                <motion.div variants={itemVariants} className="mt-auto flex items-center gap-4">
-                  <Button size="lg" onClick={() => handlePlayClick()}>
+              <motion.div variants={itemVariants} className="flex items-center gap-4 mt-auto">
+                 <Button size="lg" onClick={() => handlePlayClick()}>
                     <PlayCircleIcon className="w-7 h-7 mr-2" />
-                    Play Movie
-                  </Button>
-                </motion.div>
-              )}
+                    {media.media_type === 'tv' ? 'Play First Episode' : 'Play Movie'}
+                </Button>
+                <motion.button 
+                    onClick={handleMyListClick}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`flex items-center gap-2 px-5 py-3 font-bold rounded-full transition-all duration-300 transform active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background-color)] text-base ${
+                      isInMyList 
+                      ? 'bg-green-600/20 text-green-300 border border-green-500/30 hover:bg-green-600/30' 
+                      : 'bg-slate-700 hover:bg-slate-600 text-slate-100'
+                    }`}
+                >
+                    {isInMyList ? (
+                        <CheckIcon className="w-6 h-6" />
+                    ) : (
+                        <PlusIcon className="w-6 h-6" />
+                    )}
+                    <span>{isInMyList ? 'In My List' : 'Add to List'}</span>
+                </motion.button>
+              </motion.div>
             </div>
           </div>
           

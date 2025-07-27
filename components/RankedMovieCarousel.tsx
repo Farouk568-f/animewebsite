@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Media } from '../types.ts';
 import RankedMovieCard from './RankedMovieCard.tsx';
 
@@ -16,12 +17,19 @@ const RankedMovieCarousel: React.FC<RankedMovieCarouselProps> = ({ id, title, mo
   console.log(`RankedMovieCarousel ${id}:`, { title, moviesCount: movies.length });
 
   return (
-    <section id={id} className="section !py-0" data-aos="fade-up">
+    <motion.section 
+      id={id} 
+      className="section !py-0 relative z-10" 
+      data-aos="fade-up"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2 }}
+    >
       <div className="container mx-auto max-w-7xl">
-        <div className="carousel-title-container">
-          <h2 className="carousel-title text-white font-bold text-2xl">{title}</h2>
+        <div className="carousel-title-container relative z-10">
+          <h2 className="carousel-title text-white font-bold text-2xl relative z-10">{title}</h2>
         </div>
-        <div className="movie-carousel flex items-start gap-12 pb-16 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 overflow-x-auto">
+        <div className="movie-carousel flex items-start gap-12 pb-16 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 overflow-x-auto relative z-10">
           {movies.map((movie, index) => (
             <RankedMovieCard 
               key={`${movie.id}-${movie.media_type}`} 
@@ -32,7 +40,7 @@ const RankedMovieCarousel: React.FC<RankedMovieCarouselProps> = ({ id, title, mo
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

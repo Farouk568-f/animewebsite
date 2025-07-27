@@ -98,15 +98,30 @@ body[data-theme] {
 /* --- Base Styles --- */
 body {
   font-family: var(--default-font);
-  color: var(--default-color);
   background-color: var(--background-color);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.5s ease;
+  color: var(--default-color);
+  line-height: 1.6;
   overflow-x: hidden;
-  position: relative;
-  --mouse-x: 50%;
-  --mouse-y: 50%;
+  scroll-behavior: smooth;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+/* Enhanced button and link transitions */
+button, a, .nav-link {
+  transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+button:hover, a:hover {
+  transform: translateY(-1px);
+}
+
+button:active, a:active {
+  transform: translateY(0);
+  transition: all 0.1s ease;
 }
 
 body::after {
@@ -190,6 +205,8 @@ body::after {
   margin-bottom: 1.5rem;
   padding-left: 1rem;
   padding-right: 1rem;
+  position: relative;
+  z-index: 10;
 }
 @media (min-width: 640px) { .carousel-title-container { padding-left: 1.5rem; padding-right: 1.5rem; } }
 @media (min-width: 1024px) { .carousel-title-container { padding-left: 2rem; padding-right: 2rem; } }
@@ -202,6 +219,8 @@ body::after {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  position: relative;
+  z-index: 1;
 }
 @media (min-width: 640px) { .carousel-title { font-size: 1.875rem; } }
 
@@ -213,21 +232,41 @@ body::after {
     background-color: var(--color-primary);
     border-radius: 4px;
     transform: skewX(-10deg);
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
 }
 
 /* Header Nav Link */
 .nav-link {
     position: relative;
     white-space: nowrap;
-    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
     font-size: 1rem;
     padding: 0.5rem 1rem;
     border-radius: 9999px;
     font-weight: 500;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: rgb(var(--default-color-rgb));
 }
+
 .nav-link:hover {
     color: white;
     background-color: rgba(255,255,255, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link:active {
+    transform: translateY(0);
+    transition: all 0.1s ease;
+}
+
+.nav-link:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
 }
 
 /* Interactive Card Glow Effect */

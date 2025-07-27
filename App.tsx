@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AOS from 'aos';
@@ -20,6 +21,7 @@ import ManageProfilesPage from './components/ManageProfilesPage.tsx';
 import AccountPage from './components/AccountPage.tsx';
 import DiscoverPage from './components/DiscoverPage.tsx';
 import RankedMovieCarousel from './components/RankedMovieCarousel.tsx';
+import MyListPage from './components/MyListPage.tsx';
 
 import { getHomePageData, getKidsHomePageData, getMediaDetails, getDiscoverPageData } from './services/animeService.ts';
 import { Media, Episode, Profile, DiscoverPageData } from './types.ts';
@@ -37,7 +39,7 @@ const MOCK_PROFILES: Profile[] = [
 // --- Sub-components for cleaner structure ---
 const ContinueWatchingCarousel: React.FC<{ list: any[], onPlay: (media: Media, episode?: Episode) => void }> = ({ list, onPlay }) => (
     <section data-aos="fade-up" className="container mx-auto max-w-7xl">
-        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 tracking-tight px-4 sm:px-6 lg:px-8 font-heading">
+        <h2 className="carousel-title ml-4 sm:ml-6 lg:ml-8 mb-6">
             Continue Watching
         </h2>
         <div className="flex gap-4 lg:gap-6 overflow-x-auto pb-4 px-4 sm:px-6 lg:px-8 movie-carousel">
@@ -83,13 +85,14 @@ const App: React.FC = () => {
     const [topRatedTv, setTopRatedTv] = useState<Media[]>([]);
     const [upcomingMovies, setUpcomingMovies] = useState<Media[]>([]);
     const [discoverPageData, setDiscoverPageData] = useState<DiscoverPageData | null>(null);
+    const [myList, setMyList] = useState<Media[]>([]);
     const [isPageLoading, setIsPageLoading] = useState<boolean>(true);
     const [isDiscoverLoading, setIsDiscoverLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [continueWatchingList, setContinueWatchingList] = useState<any[]>([]);
     const [detailedMedia, setDetailedMedia] = useState<Media | null>(null);
 
-    const [currentView, setCurrentView] = useState<{ page: 'home' | 'details' | 'search' | 'library' | 'manageProfiles' | 'account' | 'discover', mediaId?: number, mediaType?: 'movie' | 'tv', query?: string }>({ page: 'home' });
+    const [currentView, setCurrentView] = useState<{ page: 'home' | 'details' | 'search' | 'library' | 'manageProfiles' | 'account' | 'discover' | 'myList', mediaId?: number, mediaType?: 'movie' | 'tv', query?: string }>({ page: 'home' });
     const [videoPlayer, setVideoPlayer] = useState<{ media: Media; episode?: Episode } | null>(null);
 
     // Profile State
@@ -120,7 +123,10 @@ const App: React.FC = () => {
             const searchMatch = hash.match(/^#\/search\/(.+)$/);
             const libraryMatch = hash.match(/^#\/library$/);
             const discoverMatch = hash.match(/^#\/discover$/);
-            window.scrollTo(0, 0);
+            const myListMatch = hash.match(/^#\/mylist$/);
+            
+            // Smooth scroll to top with easing
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
             if (currentView.page === 'manageProfiles' || currentView.page === 'account') {
                 return;
@@ -136,6 +142,7 @@ const App: React.FC = () => {
             else if (searchMatch) setCurrentView({ page: 'search', query: decodeURIComponent(searchMatch[1]) });
             else if (libraryMatch) setCurrentView({ page: 'library' });
             else if (discoverMatch) setCurrentView({ page: 'discover' });
+            else if (myListMatch) setCurrentView({ page: 'myList' });
             else setCurrentView({ page: 'home' });
         };
         window.addEventListener('hashchange', handleHashChange);
@@ -169,7 +176,6 @@ const App: React.FC = () => {
         const fetchDiscoverData = async () => {
             try {
               setIsDiscoverLoading(true);
-              setError(null);
               const data = await getDiscoverPageData();
               setDiscoverPageData(data);
             } catch (err) {
@@ -182,16 +188,16 @@ const App: React.FC = () => {
         if (activeProfile) {
           if (currentView.page === 'home' && trending.length === 0) {
             fetchAllMedia();
-          } else if (currentView.page === 'discover') {
+          } else if (currentView.page === 'discover' && !discoverPageData) {
             fetchDiscoverData();
           }
         }
-    }, [currentView.page, activeProfile, trending.length]);
+    }, [currentView.page, activeProfile, trending.length, discoverPageData]);
 
     useEffect(() => {
       if (activeProfile) {
-        const data = localStorage.getItem(`continueWatchingList_${activeProfile.id}`);
-        setContinueWatchingList(data ? JSON.parse(data) : []);
+        setContinueWatchingList(JSON.parse(localStorage.getItem(`continueWatchingList_${activeProfile.id}`) || '[]'));
+        setMyList(JSON.parse(localStorage.getItem(`myList_${activeProfile.id}`) || '[]'));
       }
     }, [activeProfile]);
 
@@ -200,6 +206,12 @@ const App: React.FC = () => {
         localStorage.setItem(`continueWatchingList_${activeProfile.id}`, JSON.stringify(continueWatchingList));
       }
     }, [continueWatchingList, activeProfile]);
+    
+    useEffect(() => {
+      if (activeProfile) {
+        localStorage.setItem(`myList_${activeProfile.id}`, JSON.stringify(myList));
+      }
+    }, [myList, activeProfile]);
 
     useEffect(() => {
       localStorage.setItem('profiles', JSON.stringify(profiles));
@@ -218,6 +230,30 @@ const App: React.FC = () => {
     const closeVideoPlayer = useCallback(() => setVideoPlayer(null), []);
     const handleCardClick = useCallback((media: Media) => window.location.hash = `#/${media.media_type}/${media.id}`, []);
     
+    const handleToggleMyList = (mediaItem: Media) => {
+        setMyList(currentList => {
+            const existingIndex = currentList.findIndex(item => item.id === mediaItem.id);
+            if (existingIndex > -1) {
+                const newList = [...currentList];
+                newList.splice(existingIndex, 1);
+                return newList;
+            } else {
+                const summaryMedia: Media = {
+                    id: mediaItem.id,
+                    title: mediaItem.title,
+                    poster_path: mediaItem.poster_path,
+                    backdrop_path: mediaItem.backdrop_path,
+                    overview: mediaItem.overview,
+                    vote_average: mediaItem.vote_average,
+                    release_date: mediaItem.release_date,
+                    genres: mediaItem.genres.slice(0, 3),
+                    media_type: mediaItem.media_type,
+                };
+                return [summaryMedia, ...currentList];
+            }
+        });
+    };
+
     // Profile Handlers
     const handleProfileSelect = (profile: Profile) => {
       setActiveProfile(profile);
@@ -268,6 +304,7 @@ const App: React.FC = () => {
         if (currentView.page === 'details' && currentView.mediaId) return `details-${currentView.mediaId}`;
         if (currentView.page === 'search' && currentView.query) return `search-${currentView.query}`;
         if (currentView.page === 'discover') return 'discover';
+        if (currentView.page === 'myList') return 'myList';
         return currentView.page;
     };
     
@@ -298,13 +335,21 @@ const App: React.FC = () => {
             case 'account':
               return <AccountPage activeProfile={activeProfile} onBack={handleReturnHome} onClearWatchHistory={handleClearWatchHistory} />;
             case 'details':
-              return <AnimeDetailsPage media={detailedMedia} onPlay={openVideoPlayer} onCloseVideoPlayer={closeVideoPlayer} />;
+              return <AnimeDetailsPage 
+                media={detailedMedia} 
+                onPlay={openVideoPlayer} 
+                onCloseVideoPlayer={closeVideoPlayer} 
+                myList={myList}
+                onToggleMyList={handleToggleMyList}
+              />;
             case 'library':
                 return <AnimeLibrary />;
             case 'search':
                 return <SearchPage initialQuery={currentView.query!} onCardClick={handleCardClick} activeProfile={activeProfile} />;
             case 'discover':
                 return <DiscoverPage data={discoverPageData} isLoading={isDiscoverLoading} onCardClick={handleCardClick} />;
+            case 'myList':
+                return <MyListPage myList={myList} onCardClick={handleCardClick} />;
             case 'home':
             default:
                 return (
@@ -347,10 +392,14 @@ const App: React.FC = () => {
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={getPageKey()}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ 
+                            duration: 0.3, 
+                            ease: [0.4, 0.0, 0.2, 1],
+                            staggerChildren: 0.05
+                        }}
                     >
                         {renderContent()}
                     </motion.div>
